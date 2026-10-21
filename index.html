@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <title>Marco familiar</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
@@ -139,7 +139,14 @@ function lsSet(k, v){ try { localStorage.setItem(k, JSON.stringify(v)); } catch 
 function dayKey(d){ return d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate()); }
 
 /* escala al tamaño de la pantalla */
-function fit(){ var s = Math.min(window.innerWidth / 1920, window.innerHeight / 1200); $('stage').style.transform = 'translate(-50%,-50%) scale(' + s + ')'; }
+var DIAG = /[?&]diag/.test(location.search);
+function fit(){
+  var s = Math.min(window.innerWidth / 1920, window.innerHeight / 1200), zo = 0;
+  try { var mz = /[?&]z=([0-9.]+)/.exec(location.search); if (mz) localStorage.setItem('zoom', mz[1]); zo = parseFloat(localStorage.getItem('zoom')) || 0; } catch (e) {}
+  if (zo > 0) s = zo;
+  $('stage').style.transform = 'translate(-50%,-50%) scale(' + s + ')';
+  if (DIAG){ var st = $('diag'); if (!st){ st = document.createElement('div'); st.id = 'diag'; st.style.cssText = 'position:fixed;left:10px;top:10px;z-index:50;background:#fff;color:#d1243c;font-size:34px;padding:8px 14px;border:3px solid #d1243c'; document.body.appendChild(st); } st.textContent = 'ventana ' + window.innerWidth + 'x' + window.innerHeight + ' · pantalla ' + screen.width + 'x' + screen.height + ' · dpr ' + window.devicePixelRatio + ' · escala ' + s.toFixed(2); }
+}
 window.addEventListener('resize', fit); fit();
 
 /* config calendario */
@@ -229,7 +236,7 @@ function renderWeek(){
 }
 function renderCal(){
   var now = new Date(), h = '', d, any = false;
-  for (d = 0; d < 28; d++){ var a = dstart(now, d), list = evsOn(a, dstart(now, d + 1)); if (!list.length && d > 0) continue; any = true; var body = '', i;
+  for (d = 0; d < 21; d++){ var a = dstart(now, d), list = evsOn(a, dstart(now, d + 1)); if (!list.length && d > 0) continue; any = true; var body = '', i;
     for (i = 0; i < list.length; i++) body += list[i].allDay ? '<div class="ad">' + esc(list[i].title) + '</div>' : evHtml(list[i], now);
     h += '<div class="dd' + (d === 0 ? ' today' : '') + '"><h4>' + (d === 0 ? 'Hoy' : cap(DIAS[a.getDay()])) + ' ' + a.getDate() + ' de ' + MESES[a.getMonth()] + '</h4>' + (body || '<div class="more">Sin eventos</div>') + '</div>'; }
   $('calDays').innerHTML = h;
