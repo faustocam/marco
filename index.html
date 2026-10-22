@@ -440,18 +440,12 @@ var shop = lsGet('shop', []);
 function isoDay(d){ return d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate()); }
 function demoTodo(){ var n = new Date(); return {compra: [{id: 'd1', t: 'Leche', due: ''}, {id: 'd2', t: 'Pan', due: ''}, {id: 'd3', t: 'Manzanas', due: ''}], casa: [{id: 'c1', t: 'Renovar el DNI', due: '', o: 1}, {id: 'c2', t: 'Cita ITV del coche', due: isoDay(dstart(n, 2)), o: 2}, {id: 'c3', t: 'Cambiar el grifo de la cocina', due: '', o: 3}, {id: 'c4', t: 'Pagar el IBI', due: isoDay(dstart(n, -1)), o: 4}, {id: 'c5', t: 'Colgar las baldas del salón', due: '', o: 5}]}; }
 if (DEMO) todo = demoTodo();
-function api(q, tries){
+function api(q){
   if (DEMO || !calUrl) return;
-  tries = tries || 0;
-  fetch(calUrl + (calUrl.indexOf('?') < 0 ? '?' : '&') + q).then(function(r){ return r.json(); }).then(function(j){
-    if (j.error) throw new Error(j.error);
-    if (j.actionError) $('status').textContent = 'Todoist: ' + j.actionError; else if (j.todoError) $('status').textContent = 'Todoist: ' + j.todoError; else $('status').textContent = '';
-    if (j.todo){ todo = j.todo; renderShop(); renderCasa(); renderWeek(); }
-  }).catch(function(err){
-    if (q.indexOf('a=done') === 0 && tries < 2){ setTimeout(function(){ api(q, tries + 1); }, 4000); return; }
-    $('status').textContent = 'No se pudo confirmar el guardado (' + (err && err.message ? err.message : err) + ') · mostrando lo que hay en Todoist';
-    setTimeout(loadCalendar, 4000);
-  });
+  /* las órdenes se envían como petición simple (no dependen de leer la respuesta) y luego se relee Todoist */
+  var im = new Image(); im.src = calUrl + (calUrl.indexOf('?') < 0 ? '?' : '&') + q + '&_=' + new Date().getTime();
+  $('status').textContent = 'Guardando…';
+  setTimeout(loadCalendar, 7000); setTimeout(loadCalendar, 16000);
 }
 function shopArr(){ var o = [], i; if (todo){ for (i = 0; i < todo.compra.length; i++) o.push({t: todo.compra[i].t, d: !!todo.compra[i].x, id: todo.compra[i].id}); return o; } return shop; }
 function addShop(t){
