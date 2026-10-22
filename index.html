@@ -178,8 +178,8 @@ textarea{height:130px;font-size:26px}
     <div class="pane"><div class="vsub">Ropa por día (toca para cambiar)</div><div id="dressSet"></div>
      <div class="vsub" style="margin-top:16px">Almuerzo por día</div><div id="snackSet"></div>
      <div class="vsub" style="margin-top:16px">PIN de padres para canjear premios (4 cifras, vacío = sin PIN)</div><input class="add" id="setPin" type="tel" maxlength="4" style="width:240px">
-     <div class="vsub">Tareas del peque (una por línea)</div><textarea id="setChores"></textarea>
-     <div class="vsub">Premios: «🍕 Nombre = estrellas» (una por línea)</div><textarea id="setRewards"></textarea>
+     <div id="localKid"><div class="vsub">Tareas de Faus (una por línea)</div><textarea id="setChores"></textarea>
+     <div class="vsub">Premios: «🍕 Nombre = estrellas» (una por línea)</div><textarea id="setRewards"></textarea></div>
      <div class="vsub">Cenas extra, sin receta (una por línea)</div><textarea id="setDinners" style="height:90px"></textarea>
      <div class="vsub" style="margin-top:16px">Cámara (Fully: Remote Admin activado). Contraseña de administración remota</div><input class="add" id="setCamPw" type="text" style="width:360px">
      <div class="vsub">URL de la imagen ({pw} = contraseña). Vacío = la propia tablet (http://localhost:2323)</div><input class="add" id="setCamUrl" type="text" style="width:100%">
@@ -434,12 +434,13 @@ function nextReward(){
 }
 function renderKids(){
   if (pts){ renderPts(); return; }
+  $('localKid').style.display = '';
   kidFresh(); var n = 0, i; for (i = 0; i < CHORES.length; i++) if (kid.done[i]) n++;
   var all = CHORES.length && n === CHORES.length, nr = nextReward(), line, pct = 0;
   if (nr.aff){ line = '🎉 Puede canjear: ' + nr.aff.n; pct = 100; }
   else if (nr.nx){ line = '🎁 ' + nr.nx.n + ' · ' + kid.stars + '/' + nr.nx.c + ' ⭐'; pct = Math.min(100, Math.round(100 * kid.stars / nr.nx.c)); }
   else line = '⭐ ' + kid.stars + ' estrellas';
-  $('bKids').innerHTML = '<div class="k">PEQUE</div><div class="big">' + (all ? '🎉 Todo hecho' : n + ' de ' + CHORES.length + ' tareas') + '</div><div class="bar"><div style="width:' + pct + '%"></div></div><div class="sm">' + esc(line) + '</div>';
+  $('bKids').innerHTML = '<div class="k">FAUS</div><div class="big">' + (all ? '🎉 Todo hecho' : n + ' de ' + CHORES.length + ' tareas') + '</div><div class="bar"><div style="width:' + pct + '%"></div></div><div class="sm">' + esc(line) + '</div>';
   var h = ''; for (i = 0; i < CHORES.length; i++) h += '<div class="chore' + (kid.done[i] ? ' done' : '') + '" data-i="' + i + '"><div class="bx">' + (kid.done[i] ? '✓' : '') + '</div><div class="tx">' + esc(CHORES[i]) + '</div></div>';
   $('chores').innerHTML = h; $('kidSub').textContent = 'Hoy: ' + n + ' de ' + CHORES.length + ' · ⭐ hoy: ' + n;
   $('starSub').textContent = '⭐ ' + kid.stars + ' estrellas disponibles';
@@ -454,6 +455,7 @@ function renderKids(){
 /* ---------- puntos y premios (hoja de Google) ---------- */
 function ptsTotal(){ var t = 0, i; for (i = 0; i < pts.tareas.length; i++) t += pts.tareas[i].p; return t; }
 function renderPts(){
+  $('localKid').style.display = 'none';
   $('ptsInfo').textContent = 'Puntos y premios: se editan en la hoja «Panel familiar · Puntos y premios» de tu Drive (pestañas Tareas y Premios).';
   var tot = ptsTotal(), hoy = 0, i, hechas = 0;
   for (i = 0; i < pts.tareas.length; i++) if (pts.hoy[pts.tareas[i].n]){ hoy += pts.tareas[i].p; hechas++; }
@@ -466,7 +468,7 @@ function renderPts(){
   if (nx){ line = '🎁 ' + nx.n + ' · ' + pts.total + '/' + nx.p + ' ⭐'; pct = Math.min(100, Math.round(100 * pts.total / nx.p)); }
   else if (aff){ line = '🎉 ¡Premio listo: ' + aff.n + '!'; pct = 100; }
   else line = '⭐ ' + pts.saldo + ' puntos';
-  $('bKids').innerHTML = '<div class="k">PEQUE</div><div class="big">' + (hoy >= tot && tot ? '🎉 Día perfecto' : hoy + ' de ' + tot + ' ⭐ hoy') + '</div><div class="bar"><div style="width:' + (tot ? Math.round(100 * hoy / tot) : 0) + '%"></div></div><div class="sm">' + esc(line) + '</div>';
+  $('bKids').innerHTML = '<div class="k">FAUS</div><div class="big">' + (hoy >= tot && tot ? '🎉 Día perfecto' : hoy + ' de ' + tot + ' ⭐ hoy') + '</div><div class="bar"><div style="width:' + (tot ? Math.round(100 * hoy / tot) : 0) + '%"></div></div><div class="sm">' + esc(line) + '</div>';
   var h = '';
   for (i = 0; i < pts.tareas.length; i++){ var t = pts.tareas[i], d = !!pts.hoy[t.n];
     h += '<div class="chore' + (d ? ' done' : '') + '" data-i="' + i + '"><div class="bx">' + (d ? '✓' : '') + '</div><div class="tx">' + esc(t.e + ' ' + t.n) + '</div><div class="pp">+' + t.p + '</div></div>'; }
@@ -569,23 +571,31 @@ function casaOn(day, isToday){
 
 /* ---------- cenas con receta ---------- */
 var RECIPES = [
- {n: 'Tortilla de patatas y ensalada', t: 35, e: '🍳', i: ['5 huevos', '4 patatas medianas', '1 cebolla (opcional)', 'Aceite de oliva', 'Sal', 'Lechuga y tomate'], s: ['Pela y corta las patatas en láminas finas; fríelas a fuego medio con la cebolla hasta que estén tiernas.', 'Bate los huevos con sal y mézclalos con las patatas escurridas.', 'Cuaja en la sartén 3-4 minutos por cada lado.', 'Sirve con la ensalada aliñada.']},
- {n: 'Crema de verduras y pollo a la plancha', t: 40, e: '🍜', i: ['2 calabacines', '1 puerro', '1 patata', '2 zanahorias', '400 g de pechuga de pollo', 'Aceite de oliva y sal'], s: ['Trocea las verduras y cuécelas 20 minutos con agua y sal.', 'Tritura hasta que quede fina y ajusta de sal.', 'Haz el pollo en filetes a la plancha, 4 minutos por lado.', 'Sirve la crema caliente con el pollo.']},
- {n: 'Pasta con tomate y atún', t: 25, e: '🍝', i: ['300 g de pasta', '400 g de tomate triturado', '2 latas de atún', '1 cebolla', 'Aceite de oliva, sal y orégano'], s: ['Cuece la pasta según el paquete.', 'Sofríe la cebolla picada, añade el tomate y cocina 10 minutos.', 'Incorpora el atún escurrido y el orégano.', 'Mezcla con la pasta y sirve.']},
- {n: 'Merluza al horno con patatas', t: 45, e: '🐟', i: ['600 g de lomos de merluza', '4 patatas', '1 limón', '2 dientes de ajo', 'Perejil', 'Aceite de oliva y sal'], s: ['Corta las patatas en rodajas y hornéalas 20 minutos a 200 °C con aceite y sal.', 'Coloca la merluza encima con ajo laminado y zumo de limón.', 'Hornea 12-15 minutos más.', 'Termina con perejil picado.']},
- {n: 'Lentejas con verduras', t: 50, e: '🍛', i: ['300 g de lentejas', '1 zanahoria', '1 cebolla', '1 pimiento verde', '2 dientes de ajo', '1 patata', 'Pimentón, laurel, aceite y sal'], s: ['Sofríe cebolla, ajo, pimiento y zanahoria picados.', 'Añade el pimentón, las lentejas, la patata en dados, el laurel y agua que cubra.', 'Cuece 30-35 minutos a fuego medio.', 'Rectifica de sal y deja reposar 5 minutos.']},
- {n: 'Pizza casera de verduras', t: 30, e: '🍕', i: ['1 base de masa de pizza', '200 g de tomate frito', '200 g de mozzarella rallada', '1 calabacín', '1 pimiento', 'Champiñones'], s: ['Precalienta el horno a 220 °C.', 'Extiende el tomate sobre la base y reparte las verduras en láminas.', 'Cubre con la mozzarella.', 'Hornea 12-15 minutos hasta que esté dorada.']},
- {n: 'Revuelto de champiñones y jamón', t: 20, e: '🍄', i: ['250 g de champiñones', '100 g de jamón serrano', '5 huevos', '1 diente de ajo', 'Aceite de oliva y sal'], s: ['Lamina los champiñones y saltéalos con el ajo hasta que suelten el agua.', 'Añade el jamón en tiras.', 'Vierte los huevos batidos y remueve a fuego suave.', 'Retira cuando esté cremoso.']},
- {n: 'Salmón con arroz', t: 30, e: '🍣', i: ['3 lomos de salmón', '250 g de arroz', '1 brócoli', '1 limón', 'Aceite de oliva y sal'], s: ['Cuece el arroz y el brócoli.', 'Haz el salmón a la plancha, 4 minutos por lado, con sal.', 'Sirve con un chorrito de limón.', 'Acompaña con el arroz y el brócoli.']},
- {n: 'Hamburguesa casera con ensalada', t: 25, e: '🍔', i: ['500 g de carne picada', '1 huevo', '2 cucharadas de pan rallado', '3 panes de hamburguesa', 'Lechuga y tomate', 'Sal'], s: ['Mezcla la carne con el huevo, el pan rallado y sal.', 'Forma 3 hamburguesas.', 'Hazlas a la plancha 4-5 minutos por lado.', 'Monta con lechuga y tomate.']},
- {n: 'Sopa de pescado y tostadas', t: 30, e: '🍲', i: ['1 l de caldo de pescado', '200 g de pescado blanco en dados', '100 g de fideos', '1 zanahoria', 'Pan para tostar'], s: ['Calienta el caldo con la zanahoria en cubitos 10 minutos.', 'Añade los fideos y cuece 4 minutos.', 'Incorpora el pescado y cocina 3 minutos más.', 'Sirve con las tostadas.']}
+ {n: "Tortilla francesa con ensalada", t: 10, e: '🍳', i: ["6 huevos", "Sal", "Aceite de oliva", "Lechuga y tomate"], s: ["Bate los huevos con sal.", "Cuaja una tortilla por persona en sartén con un poco de aceite, 1-2 minutos por lado.", "Sirve con ensalada."]},
+ {n: "Salchichas con patatas fritas", t: 20, e: '🍖', i: ["8 salchichas", "500 g de patatas", "Aceite", "Sal", "Ketchup (opcional)"], s: ["Corta las patatas en bastones y fríelas hasta que doren.", "Haz las salchichas en la sartén o plancha 8-10 minutos, dándoles la vuelta.", "Sirve junto."]},
+ {n: "Pasta en blanco con aceite", t: 15, e: '🍝', i: ["300 g de pasta", "Aceite de oliva", "Sal", "Queso rallado (opcional)"], s: ["Cuece la pasta con sal según el paquete.", "Escurre y mezcla con un chorro de aceite.", "Añade queso rallado si quieres."]},
+ {n: "Filete de merluza con patatas", t: 25, e: '🐟', i: ["600 g de filetes de merluza", "4 patatas", "1 limón", "Aceite de oliva y sal"], s: ["Cuece las patatas en rodajas 12 minutos y escúrrelas.", "Haz la merluza a la plancha 3-4 minutos por lado, con sal.", "Sirve con limón y un chorrito de aceite."]},
+ {n: "Filetes de lomo con arroz", t: 25, e: '🍖', i: ["500 g de filetes de lomo", "250 g de arroz", "Ajo en polvo y sal", "Aceite de oliva"], s: ["Cuece el arroz.", "Salpimienta los filetes y hazlos a la plancha 3-4 minutos por lado.", "Sirve con el arroz."]},
+ {n: "Pasta con tomate y atún", t: 25, e: '🍝', i: ["300 g de pasta", "400 g de tomate triturado", "2 latas de atún", "Aceite de oliva y sal"], s: ["Cuece la pasta.", "Calienta el tomate 8 minutos y añade el atún escurrido.", "Mezcla con la pasta."]},
+ {n: "Pechuga de pollo con ensalada", t: 20, e: '🍗', i: ["500 g de pechuga en filetes", "Sal", "Aceite de oliva", "Lechuga y tomate"], s: ["Salpimienta los filetes.", "Hazlos a la plancha 4 minutos por lado.", "Sirve con ensalada."]},
+ {n: "Revuelto de champiñones y jamón", t: 20, e: '🍄', i: ["250 g de champiñones", "100 g de jamón serrano", "5 huevos", "Aceite de oliva y sal"], s: ["Lamina los champiñones y saltéalos.", "Añade el jamón en tiras.", "Vierte los huevos batidos y remueve a fuego suave."]},
+ {n: "Huevos fritos con patatas", t: 20, e: '🍳', i: ["6 huevos", "500 g de patatas", "Aceite", "Sal"], s: ["Fríe las patatas en rodajas finas hasta que doren.", "Fríe los huevos en la misma sartén.", "Sirve junto."]},
+ {n: "Crema de verduras y tortilla francesa", t: 30, e: '🍜', i: ["2 calabacines", "1 puerro", "1 patata", "2 zanahorias", "5 huevos", "Aceite y sal"], s: ["Trocea las verduras y cuécelas 20 minutos con agua y sal.", "Tritura la crema.", "Haz una tortilla francesa por persona y sirve."]},
+ {n: "Arroz con tomate y huevo frito", t: 25, e: '🍚', i: ["250 g de arroz", "Tomate frito", "4 huevos", "Aceite y sal"], s: ["Cuece el arroz.", "Fríe los huevos.", "Sirve el arroz con tomate y el huevo encima."]},
+ {n: "Burritos de pollo", t: 30, e: '🍗', w: 1, i: ["6 tortillas de trigo", "400 g de pollo en tiras", "1 pimiento", "1 cebolla", "Queso rallado", "Salsa suave"], s: ["Saltea el pollo con pimiento y cebolla.", "Calienta las tortillas.", "Rellena cada una con el pollo, queso y salsa, y enróllalas."]},
+ {n: "Hamburguesas caseras", t: 25, e: '🍔', w: 1, i: ["500 g de carne picada", "1 huevo", "2 cucharadas de pan rallado", "3 panes de hamburguesa", "Lechuga, tomate y queso"], s: ["Mezcla la carne con huevo, pan rallado y sal.", "Forma 3 hamburguesas y hazlas a la plancha 4-5 minutos por lado.", "Monta cada pan con lechuga, tomate y queso."]},
+ {n: "Pizza casera", t: 30, e: '🍕', w: 1, i: ["1 base de masa de pizza", "200 g de tomate frito", "200 g de mozzarella rallada", "Jamón york o champiñones"], s: ["Precalienta el horno a 220 °C.", "Extiende el tomate, añade los ingredientes y la mozzarella (que Faus ponga los suyos).", "Hornea 12-15 minutos."]},
+ {n: "Perritos calientes y patatas", t: 20, e: '🍖', w: 1, i: ["6 salchichas", "6 panes de perrito", "Patatas fritas", "Ketchup y mostaza"], s: ["Cuece o haz a la plancha las salchichas.", "Calienta los panes.", "Monta y sirve con patatas."]},
+ {n: "Fajitas de pollo", t: 30, e: '🍗', w: 1, i: ["6 tortillas de trigo", "400 g de pollo en tiras", "2 pimientos", "1 cebolla", "Especias para fajitas"], s: ["Saltea el pollo con las especias.", "Añade pimiento y cebolla en tiras.", "Rellena las tortillas en la mesa, cada uno la suya."]},
+ {n: "Sándwiches de plancha", t: 15, e: '🍞', w: 1, i: ["Pan de molde", "Jamón york", "Queso en lonchas", "Mantequilla"], s: ["Monta los sándwiches con jamón y queso.", "Dóralos en la plancha o sartén con un poco de mantequilla.", "Sirve con patatas o tomatitos."]}
 ];
 var CUSTOM = lsGet('dinnersX', []);
+function menuFor(off){ var wk = dstart(new Date(), off).getDay(), we = wk === 6 || wk === 0; return menuAll().filter(function(x){ return !(x.t) || (!!x.w === we); }); }
 function menuAll(){ var m = RECIPES.slice(), i; for (i = 0; i < CUSTOM.length; i++) m.push({n: CUSTOM[i], t: 0, e: '🍴', i: [], s: []}); return m; }
 function slug(s){ var x = String(s).toLowerCase(); try { x = x.normalize('NFD').replace(/[̀-ͯ]/g, ''); } catch (e) {} return x.replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, ''); }
 var selDay = 0;
 function dinnerFor(off){
-  var k = dayKey(dstart(new Date(), off)), m = menuAll(), plan = lsGet('plan', {}), i, j, found = null;
+  var k = dayKey(dstart(new Date(), off)), m = menuFor(off), plan = lsGet('plan', {}), i, j, found = null;
   for (i = 0; i < m.length; i++) if (m[i].n === plan[k]) found = m[i];
   if (!found){
     var used = {}; for (j = -3; j <= 3; j++){ var kk = dayKey(dstart(new Date(), off + j)); if (plan[kk]) used[plan[kk]] = 1; }
@@ -598,7 +608,7 @@ function dinnerFor(off){
 }
 function setDinner(off, name){ var plan = lsGet('plan', {}); plan[dayKey(dstart(new Date(), off))] = name; lsSet('plan', plan); }
 function rerollDinner(off){
-  var m = menuAll(), cur = dinnerFor(off).n, ni, tries = 0;
+  var m = menuFor(off), cur = dinnerFor(off).n, ni, tries = 0;
   do { ni = Math.floor(Math.random() * m.length); tries++; } while (m.length > 1 && m[ni].n === cur && tries < 20);
   setDinner(off, m[ni].n);
 }
