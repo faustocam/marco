@@ -53,6 +53,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#f3ebe0;color:#2a252
 .ch{display:flex;justify-content:space-between;align-items:baseline;padding:0 4px 12px;border-bottom:2px solid #efe6da;margin-bottom:12px}
 .ch .a{font-size:26px;font-weight:500;color:#5a5047}.ch .b{font-size:36px;font-weight:600}
 .col.today .a,.col.today .b{color:#d1243c}
+.col.past{opacity:.55}
 .col.today,.sub.hoy{background:#fff6f3;box-shadow:inset 0 0 0 3px #e0455a}
 .col.today .ch{border-bottom-color:#f1c9c4}
 .ad{background:#cfe6d3;color:#2a5a3a;border-radius:10px;padding:5px 10px;font-size:20px;margin-bottom:8px}
@@ -365,18 +366,16 @@ function shiftWeek(delta){
   clearTimeout(weekT); if (weekShift !== 0) weekT = setTimeout(function(){ weekShift = 0; renderWeek(); }, 120000);
 }
 function renderWeek(){
-  var now = new Date(), h = '', d = weekShift, x, y, N = 7, end;
-  if (dstart(now, weekShift + 6).getDay() === 6) N = 8;
-  end = weekShift + N;
+  var now = new Date(), h = '', base = -((now.getDay() + 6) % 7), d = base + weekShift, x, y, end = d + 7;
   h += '<div class="wn' + (weekShift <= WMIN ? ' off' : '') + '" id="wPrev"><div>‹</div>' + (weekShift !== 0 ? '<div class="wh" id="wHoy">Hoy</div>' : '') + '</div>';
   while (d < end){
     var a = dstart(now, d);
     if (a.getDay() === 6){
       x = dayData(d, now, 2); y = dayData(d + 1, now, 2);
-      h += '<div class="col dbl">' + subBlock(x, d, 'Sáb') + subBlock(y, d + 1, 'Dom') + '</div>'; d += 2;
+      h += '<div class="col dbl' + (d + 1 < 0 ? ' past' : '') + '">' + subBlock(x, d, 'Sáb') + subBlock(y, d + 1, 'Dom') + '</div>'; d += 2;
     } else {
       x = dayData(d, now, 4);
-      h += '<div class="col' + (d === 0 ? ' today' : '') + '"><div class="ch"><div class="a">' + (d === 0 ? 'Hoy' : DS[a.getDay()]) + '</div><div class="b">' + a.getDate() + '</div></div><div class="evs">' + x.ev + '</div>' + x.din + '</div>'; d++;
+      h += '<div class="col' + (d === 0 ? ' today' : d < 0 ? ' past' : '') + '"><div class="ch"><div class="a">' + (d === 0 ? 'Hoy' : DS[a.getDay()]) + '</div><div class="b">' + a.getDate() + '</div></div><div class="evs">' + x.ev + '</div>' + x.din + '</div>'; d++;
     }
   }
   h += '<div class="wn' + (weekShift >= WMAX ? ' off' : '') + '" id="wNext"><div>›</div></div>';
@@ -458,11 +457,14 @@ function renderPts(){
   $('ptsInfo').textContent = 'Puntos y premios: se editan en la hoja «Panel familiar · Puntos y premios» de tu Drive (pestañas Tareas y Premios).';
   var tot = ptsTotal(), hoy = 0, i, hechas = 0;
   for (i = 0; i < pts.tareas.length; i++) if (pts.hoy[pts.tareas[i].n]){ hoy += pts.tareas[i].p; hechas++; }
-  var rs = pts.premios.slice().sort(function(a, b){ return a.p - b.p; }), aff = null, nx = null;
-  for (i = 0; i < rs.length; i++){ if (rs[i].p <= pts.saldo) aff = rs[i]; else if (!nx) nx = rs[i]; }
+  var rs = pts.premios.slice().sort(function(a, b){ return a.p - b.p; }), aff = null, nx = null, hoyD = isoDay(new Date());
+  pts.total = pts.total || 0; pts.hit = pts.hit || {};
+  function esHito(r){ return r.t && r.t !== 'pequeño'; }
+  function hecho(r){ var u = pts.hit[r.n]; return !!u && (r.t !== 'mensual' || u.slice(0, 7) === hoyD.slice(0, 7)); }
+  for (i = 0; i < rs.length; i++){ if (esHito(rs[i]) && !hecho(rs[i])){ if (rs[i].p <= pts.total) aff = rs[i]; else if (!nx) nx = rs[i]; } }
   var line, pct = 0;
-  if (nx){ line = '🎁 ' + nx.n + ' · ' + pts.saldo + '/' + nx.p + ' ⭐'; pct = Math.min(100, Math.round(100 * pts.saldo / nx.p)); }
-  else if (aff){ line = '🎉 Puede canjear todo'; pct = 100; }
+  if (nx){ line = '🎁 ' + nx.n + ' · ' + pts.total + '/' + nx.p + ' ⭐'; pct = Math.min(100, Math.round(100 * pts.total / nx.p)); }
+  else if (aff){ line = '🎉 ¡Premio listo: ' + aff.n + '!'; pct = 100; }
   else line = '⭐ ' + pts.saldo + ' puntos';
   $('bKids').innerHTML = '<div class="k">PEQUE</div><div class="big">' + (hoy >= tot && tot ? '🎉 Día perfecto' : hoy + ' de ' + tot + ' ⭐ hoy') + '</div><div class="bar"><div style="width:' + (tot ? Math.round(100 * hoy / tot) : 0) + '%"></div></div><div class="sm">' + esc(line) + '</div>';
   var h = '';
@@ -470,23 +472,23 @@ function renderPts(){
     h += '<div class="chore' + (d ? ' done' : '') + '" data-i="' + i + '"><div class="bx">' + (d ? '✓' : '') + '</div><div class="tx">' + esc(t.e + ' ' + t.n) + '</div><div class="pp">+' + t.p + '</div></div>'; }
   $('chores').innerHTML = h;
   $('kidSub').textContent = 'Hoy: ' + hechas + ' de ' + pts.tareas.length + ' · ' + hoy + ' de ' + tot + ' ⭐';
-  $('starSub').textContent = '⭐ ' + pts.saldo + ' puntos · este mes +' + pts.mes.gan + ' / −' + pts.mes.can;
+  $('starSub').textContent = '⭐ ' + pts.saldo + ' para gastar · ' + pts.total + ' en total · este mes +' + pts.mes.gan + ' / −' + pts.mes.can;
   var cs = $('chores').getElementsByClassName('chore');
   for (i = 0; i < cs.length; i++) (function(c){ c.onclick = function(){
     var t = pts.tareas[parseInt(c.getAttribute('data-i'), 10)];
-    if (pts.hoy[t.n]){ delete pts.hoy[t.n]; pts.saldo -= t.p; api('op=destarea&x=' + encodeURIComponent(t.n)); }
-    else { pts.hoy[t.n] = true; pts.saldo += t.p; api('op=tarea&x=' + encodeURIComponent(t.n)); }
+    if (pts.hoy[t.n]){ delete pts.hoy[t.n]; pts.saldo -= t.p; pts.total -= t.p; api('op=destarea&x=' + encodeURIComponent(t.n)); }
+    else { pts.hoy[t.n] = true; pts.saldo += t.p; pts.total += t.p; api('op=tarea&x=' + encodeURIComponent(t.n)); }
     renderPts();
   }; })(cs[i]);
   var rh = '';
-  for (i = 0; i < rs.length; i++){ var r = rs[i], ok = pts.saldo >= r.p;
-    rh += '<div class="rw' + (r.t === 'gordo' ? ' gran' : '') + '"><div class="e">' + r.e + '</div><div class="m"><div class="n">' + (r.t === 'gordo' ? '✨ ' : '') + esc(r.n) + '</div><div class="c">' + r.p + ' ⭐ · ' + (ok ? '¡listo!' : 'faltan ' + (r.p - pts.saldo)) + (r.t ? ' · ' + esc(r.t) : '') + '</div><div class="bar" style="margin-top:8px;height:10px"><div style="width:' + Math.min(100, Math.round(100 * pts.saldo / r.p)) + '%"></div></div></div><div class="go' + (ok ? '' : ' off') + '" data-r="' + i + '">Canjear</div></div>'; }
+  for (i = 0; i < rs.length; i++){ var r = rs[i], hi = esHito(r), cur = hi ? pts.total : pts.saldo, dn = hi && hecho(r), ok = cur >= r.p && !dn;
+    rh += '<div class="rw' + (r.t === 'gordo' ? ' gran' : '') + '"><div class="e">' + r.e + '</div><div class="m"><div class="n">' + (r.t === 'gordo' ? '✨ ' : '') + esc(r.n) + '</div><div class="c">' + r.p + ' ⭐ · ' + (dn ? '✓ conseguido' : ok ? '¡listo!' : 'faltan ' + (r.p - cur)) + (hi ? ' · hito' : ' · se gasta') + '</div><div class="bar" style="margin-top:8px;height:10px"><div style="width:' + Math.min(100, Math.round(100 * cur / r.p)) + '%"></div></div></div><div class="go' + (ok ? '' : ' off') + '" data-r="' + i + '">Canjear</div></div>'; }
   if (pts.ult && pts.ult.length){ rh += '<div class="vsub" style="margin-top:18px">Últimos movimientos</div>'; for (i = 0; i < pts.ult.length && i < 3; i++) rh += '<div class="mv"><span>' + esc(pts.ult[i].f.slice(5).split('-').reverse().join('/')) + ' · ' + esc(pts.ult[i].c) + '</span><b class="' + (pts.ult[i].p < 0 ? 'neg' : '') + '">' + (pts.ult[i].p > 0 ? '+' : '') + pts.ult[i].p + '</b></div>'; }
   $('rewards').innerHTML = rh;
   var gs = $('rewards').getElementsByClassName('go');
   for (i = 0; i < gs.length; i++) (function(g){ g.onclick = function(){
-    var r = rs[parseInt(g.getAttribute('data-r'), 10)]; if (pts.saldo < r.p) return;
-    askPin('¿Canjear «' + r.n + '» por ' + r.p + ' ⭐?', function(){ pts.saldo -= r.p; pts.ult.unshift({f: isoDay(new Date()), c: 'Canje: ' + r.n, p: -r.p}); pts.mes.can += r.p; api('op=canje&x=' + encodeURIComponent(r.n)); renderPts(); });
+    var r = rs[parseInt(g.getAttribute('data-r'), 10)], hi = esHito(r); if ((hi ? pts.total : pts.saldo) < r.p || (hi && hecho(r))) return;
+    askPin(hi ? '¿Marcar «' + r.n + '» como conseguido?' : '¿Canjear «' + r.n + '» por ' + r.p + ' ⭐?', function(){ if (hi){ pts.hit[r.n] = isoDay(new Date()); pts.ult.unshift({f: isoDay(new Date()), c: 'Conseguido: ' + r.n, p: 0}); } else { pts.saldo -= r.p; pts.ult.unshift({f: isoDay(new Date()), c: 'Canje: ' + r.n, p: -r.p}); pts.mes.can += r.p; } api('op=canje&x=' + encodeURIComponent(r.n)); renderPts(); });
   }; })(gs[i]);
 }
 
@@ -496,7 +498,7 @@ var shop = lsGet('shop', []);
 /* Todoist vía Apps Script: todo = {compra:[{id,t,due,o,x}], casa:[...]} ; null = sin Todoist (compra local) */
 function isoDay(d){ return d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate()); }
 function demoTodo(){ var n = new Date(); return {compra: [{id: 'd1', t: 'Leche', due: ''}, {id: 'd2', t: 'Pan', due: ''}, {id: 'd3', t: 'Manzanas', due: ''}], casa: [{id: 'c1', t: 'Renovar el DNI', due: '', o: 1}, {id: 'c2', t: 'Cita ITV del coche', due: isoDay(dstart(n, 2)), o: 2}, {id: 'c3', t: 'Cambiar el grifo de la cocina', due: '', o: 3}, {id: 'c4', t: 'Pagar el IBI', due: isoDay(dstart(n, -1)), o: 4}, {id: 'c5', t: 'Colgar las baldas del salón', due: '', o: 5}]}; }
-function demoPts(){ return {tareas: [{e:'🌅',n:'Levantarse temprano',p:1},{e:'🍎',n:'Comer bien (desayuno, comida y cena)',p:3},{e:'🐕',n:'Acompañar a Siena en su paseo',p:2},{e:'🚂',n:'Recoger juguetes y pinturas',p:1},{e:'🚿',n:'Ducharse por la noche',p:1},{e:'📖',n:'Lectura o deberes',p:2}], premios: [{e:'🍬',n:'Chucherías',p:20,t:'pequeño'},{e:'📺',n:'30 min extra de YouTube',p:30,t:'pequeño'},{e:'🍕',n:'Pizza y peli con papás',p:60,t:'pequeño'},{e:'🍴',n:'Cenar en un restaurante',p:100,t:'mensual'},{e:'🎬',n:'Ir al cine',p:150,t:'mensual'},{e:'🎁',n:'Visita a la juguetería',p:300,t:'especial'},{e:'🏰',n:'Viaje a Disneyland',p:1000,t:'gordo'}], hoy: {'Levantarse temprano': true, 'Comer bien (desayuno, comida y cena)': true}, hoyPts: 4, saldo: 47, mes: {gan: 87, can: 40}, ult: [{f:'2026-10-21',c:'Comer todo',p:1},{f:'2026-10-20',c:'Canje: Helado',p:-20},{f:'2026-10-20',c:'Acompañar a Siena en su paseo',p:2}], url: ''}; }
+function demoPts(){ return {tareas: [{e:'🌅',n:'Levantarse temprano',p:1},{e:'🍎',n:'Comer bien (desayuno, comida y cena)',p:3},{e:'🐕',n:'Acompañar a Siena en su paseo',p:2},{e:'🚂',n:'Recoger juguetes y pinturas',p:1},{e:'🚿',n:'Ducharse por la noche',p:1},{e:'📖',n:'Lectura o deberes',p:2}], premios: [{e:'🍬',n:'Chucherías',p:20,t:'pequeño'},{e:'📺',n:'30 min extra de YouTube',p:30,t:'pequeño'},{e:'🍕',n:'Pizza y peli con papás',p:60,t:'pequeño'},{e:'🍴',n:'Cenar en un restaurante',p:100,t:'mensual'},{e:'🎬',n:'Ir al cine',p:150,t:'mensual'},{e:'🎁',n:'Visita a la juguetería',p:300,t:'especial'},{e:'🏰',n:'Viaje a Disneyland',p:1000,t:'gordo'}], hoy: {'Levantarse temprano': true, 'Comer bien (desayuno, comida y cena)': true}, hoyPts: 4, saldo: 47, total: 127, hit: {}, mes: {gan: 87, can: 40}, ult: [{f:'2026-10-21',c:'Comer todo',p:1},{f:'2026-10-20',c:'Canje: Helado',p:-20},{f:'2026-10-20',c:'Acompañar a Siena en su paseo',p:2}], url: ''}; }
 if (DEMO){ todo = demoTodo(); pts = demoPts(); }
 var syncA = 0, syncB = 0;
 function api(q){
