@@ -35,6 +35,9 @@ html,body{width:100%;height:100%;overflow:hidden;background:#f3ebe0;color:#2a252
 #nxt .tt{font-size:48px;font-weight:600;margin-top:30px;line-height:1.1}
 #nxt .w{font-size:28px;color:#e3f7ea;margin-top:12px}
 #week{display:flex;overflow:hidden;min-width:0}
+.wn{flex:0 0 54px;margin-right:12px;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:56px;line-height:1;color:#8a7b6b;background:rgba(255,253,249,.7);border-radius:26px;cursor:pointer}
+.wn.off{opacity:.25}.wn:last-child{margin-right:0}
+.wn .wh{font-size:18px;font-weight:600;color:#fff;background:#c9792a;border-radius:12px;padding:6px 8px;margin-top:14px;letter-spacing:.5px}
 .col{flex:1 1 0;min-width:0;margin-right:12px;background:#fffdf9;border-radius:28px;padding:20px 14px 14px;overflow:hidden;box-shadow:0 1px 3px rgba(80,60,30,.08);display:flex;flex-direction:column}
 .evs{flex:1;overflow:hidden;min-height:0}
 .din{margin-top:8px;background:#e8efdc;border-radius:16px;padding:10px 12px;font-size:21px;line-height:1.25;color:#33442a;cursor:pointer;max-height:112px;overflow:hidden;flex:none}
@@ -273,7 +276,7 @@ function askPin(msg, cb){
 }
 
 /* ---------- tiempo ---------- */
-function wIcon(c){ if (c === 0) return '☀️'; if (c <= 2) return '⛅'; if (c === 3) return '☁️'; if (c === 45 || c === 48) return '🌫'; if (c >= 51 && c <= 67) return '🌧'; if (c >= 71 && c <= 77) return '❄️'; if (c >= 80 && c <= 82) return '🌧'; if (c >= 95) return '⛈'; return '⛅'; }
+function wIcon(c){ if (c === 0) return '☀️'; if (c <= 2) return '⛅'; if (c === 3) return '☁️'; if (c === 45 || c === 48) return '🌁'; if (c >= 51 && c <= 67) return '☔'; if (c >= 71 && c <= 77) return '❄️'; if (c >= 80 && c <= 82) return '☔'; if (c >= 95) return '⚡'; return '⛅'; }
 function loadWeather(){
   var url = 'https://api.open-meteo.com/v1/forecast?latitude=' + LAT + '&longitude=' + LON + '&current=temperature_2m,weather_code&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max&hourly=temperature_2m,precipitation_probability,weather_code&timezone=Europe%2FMadrid&forecast_days=7';
   fetch(url).then(function(r){ return r.json(); }).then(function(j){ weather = j; renderWeather(); renderRopa(); }).catch(function(){ $('status').textContent = 'Sin datos del tiempo'; });
@@ -283,14 +286,14 @@ function adviceFor(){
   if (!j) return out;
   var d = j.daily, tmin = d.temperature_2m_min[0], tmax = d.temperature_2m_max[0], pr = d.precipitation_probability_max[0], wc = d.weather_code[0];
   var rain = (wc >= 51 && wc <= 67) || (wc >= 80 && wc <= 82) || wc >= 95;
-  if (rain || pr >= 50) out.push({e: '☂️', s: 'Paraguas', l: 'Coge el paraguas: hay ' + pr + ' % de probabilidad de lluvia.'});
-  else if (pr >= 30) out.push({e: '☂️', s: 'Quizá lluvia', l: 'Puede llover (' + pr + ' %): mejor llevar paraguas.'});
-  if (tmin <= 4) out.push({e: '🧤', s: 'Guantes y gorro', l: 'Hará frío (mínima ' + Math.round(tmin) + '°): guantes, gorro y bufanda.'});
-  else if (tmin <= 9) out.push({e: '🧥', s: 'Abrígate', l: 'Mañana fría (' + Math.round(tmin) + '°): chaqueta gruesa.'});
-  else if (tmin <= 13 && tmax < 22) out.push({e: '🧥', s: 'Chaqueta', l: 'Día fresco: lleva una chaqueta.'});
-  if (tmax >= 31) out.push({e: '🧴', s: 'Gorra y agua', l: 'Mucho calor (' + Math.round(tmax) + '°): gorra, agua y protector solar.'});
+  if (rain || pr >= 50) out.push({e: '☔', s: 'Paraguas', l: 'Coge el paraguas: hay ' + pr + ' % de probabilidad de lluvia.'});
+  else if (pr >= 30) out.push({e: '☔', s: 'Quizá lluvia', l: 'Puede llover (' + pr + ' %): mejor llevar paraguas.'});
+  if (tmin <= 4) out.push({e: '⛄', s: 'Guantes y gorro', l: 'Hará frío (mínima ' + Math.round(tmin) + '°): guantes, gorro y bufanda.'});
+  else if (tmin <= 9) out.push({e: '👚', s: 'Abrígate', l: 'Mañana fría (' + Math.round(tmin) + '°): chaqueta gruesa.'});
+  else if (tmin <= 13 && tmax < 22) out.push({e: '👚', s: 'Chaqueta', l: 'Día fresco: lleva una chaqueta.'});
+  if (tmax >= 31) out.push({e: '🌞', s: 'Gorra y agua', l: 'Mucho calor (' + Math.round(tmax) + '°): gorra, agua y protector solar.'});
   else if (tmax >= 26) out.push({e: '😎', s: 'Ropa fresca', l: 'Hará calor (' + Math.round(tmax) + '°): ropa ligera y agua.'});
-  if (tmax - tmin >= 12 && tmin <= 13) out.push({e: '🧅', s: 'Ropa por capas', l: 'Mucha diferencia entre mañana (' + Math.round(tmin) + '°) y tarde (' + Math.round(tmax) + '°): ropa por capas.'});
+  if (tmax - tmin >= 12 && tmin <= 13) out.push({e: '👕', s: 'Ropa por capas', l: 'Mucha diferencia entre mañana (' + Math.round(tmin) + '°) y tarde (' + Math.round(tmax) + '°): ropa por capas.'});
   return out;
 }
 function renderWeather(){
@@ -354,10 +357,17 @@ function dayData(off, now, maxN){
   return {a: a, ev: tk + ad + body + (more ? '<div class="more">+' + more + ' más</div>' : ''), din: '<div class="din" data-o="' + off + '">' + dn.e + ' ' + esc(dn.n) + '</div>'};
 }
 function subBlock(x, off, name){ return '<div class="sub"><div class="sh' + (off === 0 ? ' today' : '') + '"><span>' + name + '</span><b>' + x.a.getDate() + '</b></div><div class="evs">' + x.ev + '</div>' + x.din + '</div>'; }
+var weekShift = 0, weekT = 0, WMIN = -7, WMAX = 28;
+function shiftWeek(delta){
+  weekShift = delta === 0 ? 0 : Math.max(WMIN, Math.min(WMAX, weekShift + delta)); renderWeek();
+  clearTimeout(weekT); if (weekShift !== 0) weekT = setTimeout(function(){ weekShift = 0; renderWeek(); }, 120000);
+}
 function renderWeek(){
-  var now = new Date(), h = '', d = 0, x, y, N = 7;
-  if (dstart(now, 6).getDay() === 6) N = 8;
-  while (d < N){
+  var now = new Date(), h = '', d = weekShift, x, y, N = 7, end;
+  if (dstart(now, weekShift + 6).getDay() === 6) N = 8;
+  end = weekShift + N;
+  h += '<div class="wn' + (weekShift <= WMIN ? ' off' : '') + '" id="wPrev"><div>‹</div>' + (weekShift !== 0 ? '<div class="wh" id="wHoy">Hoy</div>' : '') + '</div>';
+  while (d < end){
     var a = dstart(now, d);
     if (a.getDay() === 6){
       x = dayData(d, now, 2); y = dayData(d + 1, now, 2);
@@ -367,7 +377,10 @@ function renderWeek(){
       h += '<div class="col' + (d === 0 ? ' today' : '') + '"><div class="ch"><div class="a">' + (d === 0 ? 'Hoy' : DS[a.getDay()]) + '</div><div class="b">' + a.getDate() + '</div></div><div class="evs">' + x.ev + '</div>' + x.din + '</div>'; d++;
     }
   }
+  h += '<div class="wn' + (weekShift >= WMAX ? ' off' : '') + '" id="wNext"><div>›</div></div>';
   $('week').innerHTML = h;
+  $('wPrev').onclick = function(){ shiftWeek(-7); }; $('wNext').onclick = function(){ shiftWeek(7); };
+  if ($('wHoy')) $('wHoy').onclick = function(ev){ if (ev && ev.stopPropagation) ev.stopPropagation(); shiftWeek(0); };
   var ds = $('week').querySelectorAll('.din'), k; for (k = 0; k < ds.length; k++) (function(el){ el.onclick = function(){ selDay = parseInt(el.getAttribute('data-o'), 10); renderDinner(); go('cena'); }; })(ds[k]);
 }
 function renderCal(){
@@ -409,7 +422,7 @@ function renderSnack(){
 
 /* ---------- peque: tareas y premios ---------- */
 var CHORES = lsGet('chores', ['Hacer la cama','Recoger los juguetes','Lavarse los dientes','Preparar la mochila']);
-var REWARDS = lsGet('rewards', [{n: 'Helado', c: 6, e: '🍦'}, {n: 'Elegir la cena', c: 8, e: '🍽'}, {n: '30 min extra de tablet', c: 10, e: '🎮'}, {n: 'Pizza y peli con papás', c: 16, e: '🍕'}, {n: 'Parque o excursión', c: 24, e: '🌳'}]);
+var REWARDS = lsGet('rewards', [{n: 'Helado', c: 6, e: '🍦'}, {n: 'Elegir la cena', c: 8, e: '🍴'}, {n: '30 min extra de tablet', c: 10, e: '🎮'}, {n: 'Pizza y peli con papás', c: 16, e: '🍕'}, {n: 'Parque o excursión', c: 24, e: '🌳'}]);
 var kid = lsGet('kid', {day: '', done: {}, stars: 0, log: []});
 if (!kid.log) kid.log = [];
 function kidFresh(){ var k = dayKey(new Date()); if (kid.day !== k){ kid.day = k; kid.done = {}; lsSet('kid', kid); } }
@@ -481,7 +494,7 @@ var shop = lsGet('shop', []);
 /* Todoist vía Apps Script: todo = {compra:[{id,t,due,o,x}], casa:[...]} ; null = sin Todoist (compra local) */
 function isoDay(d){ return d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate()); }
 function demoTodo(){ var n = new Date(); return {compra: [{id: 'd1', t: 'Leche', due: ''}, {id: 'd2', t: 'Pan', due: ''}, {id: 'd3', t: 'Manzanas', due: ''}], casa: [{id: 'c1', t: 'Renovar el DNI', due: '', o: 1}, {id: 'c2', t: 'Cita ITV del coche', due: isoDay(dstart(n, 2)), o: 2}, {id: 'c3', t: 'Cambiar el grifo de la cocina', due: '', o: 3}, {id: 'c4', t: 'Pagar el IBI', due: isoDay(dstart(n, -1)), o: 4}, {id: 'c5', t: 'Colgar las baldas del salón', due: '', o: 5}]}; }
-function demoPts(){ return {tareas: [{e:'🌅',n:'Levantarse temprano',p:1},{e:'🍽',n:'Comer bien (desayuno, comida y cena)',p:3},{e:'🐕',n:'Acompañar a Siena en su paseo',p:2},{e:'🚂',n:'Recoger juguetes y pinturas',p:1},{e:'🚿',n:'Ducharse por la noche',p:1},{e:'📖',n:'Lectura o deberes',p:2}], premios: [{e:'🍬',n:'Chucherías',p:20,t:'pequeño'},{e:'📺',n:'30 min extra de YouTube',p:30,t:'pequeño'},{e:'🍕',n:'Pizza y peli con papás',p:60,t:'pequeño'},{e:'🍽',n:'Cenar en un restaurante',p:100,t:'mensual'},{e:'🎬',n:'Ir al cine',p:150,t:'mensual'},{e:'🎁',n:'Visita a la juguetería',p:300,t:'especial'},{e:'🏰',n:'Viaje a Disneyland',p:1000,t:'gordo'}], hoy: {'Levantarse temprano': true, 'Comer bien (desayuno, comida y cena)': true}, hoyPts: 4, saldo: 47, mes: {gan: 87, can: 40}, ult: [{f:'2026-10-21',c:'Comer todo',p:1},{f:'2026-10-20',c:'Canje: Helado',p:-20},{f:'2026-10-20',c:'Acompañar a Siena en su paseo',p:2}], url: ''}; }
+function demoPts(){ return {tareas: [{e:'🌅',n:'Levantarse temprano',p:1},{e:'🍎',n:'Comer bien (desayuno, comida y cena)',p:3},{e:'🐕',n:'Acompañar a Siena en su paseo',p:2},{e:'🚂',n:'Recoger juguetes y pinturas',p:1},{e:'🚿',n:'Ducharse por la noche',p:1},{e:'📖',n:'Lectura o deberes',p:2}], premios: [{e:'🍬',n:'Chucherías',p:20,t:'pequeño'},{e:'📺',n:'30 min extra de YouTube',p:30,t:'pequeño'},{e:'🍕',n:'Pizza y peli con papás',p:60,t:'pequeño'},{e:'🍴',n:'Cenar en un restaurante',p:100,t:'mensual'},{e:'🎬',n:'Ir al cine',p:150,t:'mensual'},{e:'🎁',n:'Visita a la juguetería',p:300,t:'especial'},{e:'🏰',n:'Viaje a Disneyland',p:1000,t:'gordo'}], hoy: {'Levantarse temprano': true, 'Comer bien (desayuno, comida y cena)': true}, hoyPts: 4, saldo: 47, mes: {gan: 87, can: 40}, ult: [{f:'2026-10-21',c:'Comer todo',p:1},{f:'2026-10-20',c:'Canje: Helado',p:-20},{f:'2026-10-20',c:'Acompañar a Siena en su paseo',p:2}], url: ''}; }
 if (DEMO){ todo = demoTodo(); pts = demoPts(); }
 var syncA = 0, syncB = 0;
 function api(q){
@@ -553,10 +566,10 @@ function casaOn(day, isToday){
 /* ---------- cenas con receta ---------- */
 var RECIPES = [
  {n: 'Tortilla de patatas y ensalada', t: 35, e: '🍳', i: ['5 huevos', '4 patatas medianas', '1 cebolla (opcional)', 'Aceite de oliva', 'Sal', 'Lechuga y tomate'], s: ['Pela y corta las patatas en láminas finas; fríelas a fuego medio con la cebolla hasta que estén tiernas.', 'Bate los huevos con sal y mézclalos con las patatas escurridas.', 'Cuaja en la sartén 3-4 minutos por cada lado.', 'Sirve con la ensalada aliñada.']},
- {n: 'Crema de verduras y pollo a la plancha', t: 40, e: '🥣', i: ['2 calabacines', '1 puerro', '1 patata', '2 zanahorias', '400 g de pechuga de pollo', 'Aceite de oliva y sal'], s: ['Trocea las verduras y cuécelas 20 minutos con agua y sal.', 'Tritura hasta que quede fina y ajusta de sal.', 'Haz el pollo en filetes a la plancha, 4 minutos por lado.', 'Sirve la crema caliente con el pollo.']},
+ {n: 'Crema de verduras y pollo a la plancha', t: 40, e: '🍜', i: ['2 calabacines', '1 puerro', '1 patata', '2 zanahorias', '400 g de pechuga de pollo', 'Aceite de oliva y sal'], s: ['Trocea las verduras y cuécelas 20 minutos con agua y sal.', 'Tritura hasta que quede fina y ajusta de sal.', 'Haz el pollo en filetes a la plancha, 4 minutos por lado.', 'Sirve la crema caliente con el pollo.']},
  {n: 'Pasta con tomate y atún', t: 25, e: '🍝', i: ['300 g de pasta', '400 g de tomate triturado', '2 latas de atún', '1 cebolla', 'Aceite de oliva, sal y orégano'], s: ['Cuece la pasta según el paquete.', 'Sofríe la cebolla picada, añade el tomate y cocina 10 minutos.', 'Incorpora el atún escurrido y el orégano.', 'Mezcla con la pasta y sirve.']},
  {n: 'Merluza al horno con patatas', t: 45, e: '🐟', i: ['600 g de lomos de merluza', '4 patatas', '1 limón', '2 dientes de ajo', 'Perejil', 'Aceite de oliva y sal'], s: ['Corta las patatas en rodajas y hornéalas 20 minutos a 200 °C con aceite y sal.', 'Coloca la merluza encima con ajo laminado y zumo de limón.', 'Hornea 12-15 minutos más.', 'Termina con perejil picado.']},
- {n: 'Lentejas con verduras', t: 50, e: '🥘', i: ['300 g de lentejas', '1 zanahoria', '1 cebolla', '1 pimiento verde', '2 dientes de ajo', '1 patata', 'Pimentón, laurel, aceite y sal'], s: ['Sofríe cebolla, ajo, pimiento y zanahoria picados.', 'Añade el pimentón, las lentejas, la patata en dados, el laurel y agua que cubra.', 'Cuece 30-35 minutos a fuego medio.', 'Rectifica de sal y deja reposar 5 minutos.']},
+ {n: 'Lentejas con verduras', t: 50, e: '🍛', i: ['300 g de lentejas', '1 zanahoria', '1 cebolla', '1 pimiento verde', '2 dientes de ajo', '1 patata', 'Pimentón, laurel, aceite y sal'], s: ['Sofríe cebolla, ajo, pimiento y zanahoria picados.', 'Añade el pimentón, las lentejas, la patata en dados, el laurel y agua que cubra.', 'Cuece 30-35 minutos a fuego medio.', 'Rectifica de sal y deja reposar 5 minutos.']},
  {n: 'Pizza casera de verduras', t: 30, e: '🍕', i: ['1 base de masa de pizza', '200 g de tomate frito', '200 g de mozzarella rallada', '1 calabacín', '1 pimiento', 'Champiñones'], s: ['Precalienta el horno a 220 °C.', 'Extiende el tomate sobre la base y reparte las verduras en láminas.', 'Cubre con la mozzarella.', 'Hornea 12-15 minutos hasta que esté dorada.']},
  {n: 'Revuelto de champiñones y jamón', t: 20, e: '🍄', i: ['250 g de champiñones', '100 g de jamón serrano', '5 huevos', '1 diente de ajo', 'Aceite de oliva y sal'], s: ['Lamina los champiñones y saltéalos con el ajo hasta que suelten el agua.', 'Añade el jamón en tiras.', 'Vierte los huevos batidos y remueve a fuego suave.', 'Retira cuando esté cremoso.']},
  {n: 'Salmón con arroz', t: 30, e: '🍣', i: ['3 lomos de salmón', '250 g de arroz', '1 brócoli', '1 limón', 'Aceite de oliva y sal'], s: ['Cuece el arroz y el brócoli.', 'Haz el salmón a la plancha, 4 minutos por lado, con sal.', 'Sirve con un chorrito de limón.', 'Acompaña con el arroz y el brócoli.']},
@@ -564,7 +577,7 @@ var RECIPES = [
  {n: 'Sopa de pescado y tostadas', t: 30, e: '🍲', i: ['1 l de caldo de pescado', '200 g de pescado blanco en dados', '100 g de fideos', '1 zanahoria', 'Pan para tostar'], s: ['Calienta el caldo con la zanahoria en cubitos 10 minutos.', 'Añade los fideos y cuece 4 minutos.', 'Incorpora el pescado y cocina 3 minutos más.', 'Sirve con las tostadas.']}
 ];
 var CUSTOM = lsGet('dinnersX', []);
-function menuAll(){ var m = RECIPES.slice(), i; for (i = 0; i < CUSTOM.length; i++) m.push({n: CUSTOM[i], t: 0, e: '🍽', i: [], s: []}); return m; }
+function menuAll(){ var m = RECIPES.slice(), i; for (i = 0; i < CUSTOM.length; i++) m.push({n: CUSTOM[i], t: 0, e: '🍴', i: [], s: []}); return m; }
 function slug(s){ var x = String(s).toLowerCase(); try { x = x.normalize('NFD').replace(/[̀-ͯ]/g, ''); } catch (e) {} return x.replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, ''); }
 var selDay = 0;
 function dinnerFor(off){
@@ -574,7 +587,7 @@ function dinnerFor(off){
     var used = {}; for (j = -3; j <= 3; j++){ var kk = dayKey(dstart(new Date(), off + j)); if (plan[kk]) used[plan[kk]] = 1; }
     var cand = m.filter(function(x){ return !used[x.n]; }); if (!cand.length) cand = m;
     found = cand[Math.floor(Math.random() * cand.length)]; plan[k] = found.n;
-    var keep = dayKey(dstart(new Date(), -2)), q; for (q in plan) if (q < keep) delete plan[q];
+    var keep = dayKey(dstart(new Date(), -14)), q; for (q in plan) if (q < keep) delete plan[q];
     lsSet('plan', plan);
   }
   return found;
@@ -596,7 +609,7 @@ function renderDinner(){
   for (i = 0; i < r.s.length; i++) stp += '<li>' + esc(r.s[i]) + '</li>';
   $('cenaMain').innerHTML = '<div class="cfoto">' + r.e + '<img src="fotos/' + slug(r.n) + '.jpg" onerror="this.style.display=\'none\'" alt=""></div><div class="ctit">' + esc(r.n) + '</div><div class="vsub">' + (r.t ? '⏱ ' + r.t + ' min · para 3 personas' : 'Sin receta guardada') + '</div>' +
     (r.i.length ? '<div class="two"><div><div class="vsub" style="margin-bottom:4px"><b>Ingredientes</b></div><ul class="ing">' + ing + '</ul></div><div style="flex:1.4"><div class="vsub" style="margin-bottom:4px"><b>Preparación</b></div><ol class="stp">' + stp + '</ol></div></div>' : '') +
-    (r.i.length ? '<div class="btn" id="addIng">🛒 Añadir ingredientes a la compra</div>' : '') + '<div class="btn l" id="otra">🔄 Otra idea</div>';
+    (r.i.length ? '<div class="btn" id="addIng">➕ Añadir ingredientes a la compra</div>' : '') + '<div class="btn l" id="otra">🔄 Otra idea</div>';
   var cl = ''; for (i = 0; i < m.length; i++) cl += '<div class="mi' + (m[i].n === r.n ? ' on' : '') + '" data-n="' + esc(m[i].n) + '">' + m[i].e + ' ' + esc(m[i].n) + '</div>';
   $('cenaList').innerHTML = cl;
   var mis = document.getElementsByClassName('mi'); for (i = 0; i < mis.length; i++) (function(el){ el.onclick = function(){ setDinner(selDay, el.getAttribute('data-n')); renderDinner(); }; })(mis[i]);
