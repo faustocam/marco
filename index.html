@@ -446,7 +446,7 @@ function api(q){
     if (j.error) throw new Error(j.error);
     if (j.actionError) $('status').textContent = 'Todoist: ' + j.actionError; else if (j.todoError) $('status').textContent = 'Todoist: ' + j.todoError; else $('status').textContent = '';
     if (j.todo){ todo = j.todo; renderShop(); renderCasa(); renderWeek(); }
-  }).catch(function(){ $('status').textContent = 'Sin conexión · el último cambio puede no haberse guardado'; });
+  }).catch(function(err){ $('status').textContent = 'Error al guardar (' + (err && err.message ? err.message : err) + ') · el último cambio puede no haberse guardado'; });
 }
 function shopArr(){ var o = [], i; if (todo){ for (i = 0; i < todo.compra.length; i++) o.push({t: todo.compra[i].t, d: !!todo.compra[i].x, id: todo.compra[i].id}); return o; } return shop; }
 function addShop(t){
