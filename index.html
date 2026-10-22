@@ -325,9 +325,10 @@ function loadCalendar(){
   if (DEMO){ events = demoEvents(); renderAll(); $('status').textContent = 'Modo demostración'; return; }
   fetch(calUrl).then(function(r){ return r.json(); }).then(function(j){ if (j.error) throw new Error(j.error); events = j.events || []; todo = j.todo || null; $('status').textContent = j.todoError ? 'Todoist: ' + j.todoError : ''; renderAll(); }).catch(function(){ $('status').textContent = 'Calendario sin conexión · ' + hhmm(new Date()); });
 }
+function adHtml(ev){ return '<div class="ad"' + (ev.color ? ' style="background:' + ev.color + ';color:#fff;font-weight:600"' : '') + '>' + esc(ev.title) + '</div>'; }
 function colorFor(t){ var p = String(t).split(':'); if (p.length < 2) return '#7a8aa0'; var h = 0, s = p[0], i; for (i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) % 997; return COLORS[h % COLORS.length]; }
 function evsOn(a, b){ var out = [], i; for (i = 0; i < events.length; i++){ var s = new Date(events[i].start), e = new Date(events[i].end); if (s < b && e > a) out.push(events[i]); } return out; }
-function evHtml(ev, now){ var s = new Date(ev.start), past = !ev.allDay && new Date(ev.end) < now; return '<div class="ev' + (past ? ' past' : '') + '" style="border-left-color:' + colorFor(ev.title) + '"><div class="h">' + hhmm(s) + '</div><div class="t">' + esc(ev.title) + (ev.location ? ' <span style="color:#8b7f73;font-size:22px">· ' + esc(shortLoc(ev.location)) + '</span>' : '') + '</div></div>'; }
+function evHtml(ev, now){ var s = new Date(ev.start), past = !ev.allDay && new Date(ev.end) < now; return '<div class="ev' + (past ? ' past' : '') + '" style="border-left-color:' + (ev.color || colorFor(ev.title)) + '"><div class="h">' + hhmm(s) + '</div><div class="t">' + esc(ev.title) + (ev.location ? ' <span style="color:#8b7f73;font-size:22px">· ' + esc(shortLoc(ev.location)) + '</span>' : '') + '</div></div>'; }
 function renderNext(){
   var now = new Date(), cur = null, nxt = null, i;
   for (i = 0; i < events.length; i++){ var ev = events[i]; if (ev.allDay) continue; var s = new Date(ev.start), e = new Date(ev.end); if (s <= now && e > now && !cur) cur = ev; if (s > now && !nxt) nxt = ev; }
@@ -345,7 +346,7 @@ function renderNext(){
 function dayData(off, now, maxN){
   var a = dstart(now, off), b = dstart(now, off + 1), list = evsOn(a, b), ad = '', body = '', n = 0, more = 0, i, tk = casaOn(isoDay(a), off === 0), nt = (tk.match(/class="tk"/g) || []).length;
   maxN = Math.max(1, maxN - nt);
-  for (i = 0; i < list.length; i++){ if (list[i].allDay) ad += '<div class="ad">' + esc(list[i].title) + '</div>'; else if (n < maxN){ body += evHtml(list[i], now); n++; } else more++; }
+  for (i = 0; i < list.length; i++){ if (list[i].allDay) ad += adHtml(list[i]); else if (n < maxN){ body += evHtml(list[i], now); n++; } else more++; }
   var dn = dinnerFor(off);
   return {a: a, ev: tk + ad + body + (more ? '<div class="more">+' + more + ' más</div>' : ''), din: '<div class="din" data-o="' + off + '">' + dn.e + ' ' + esc(dn.n) + '</div>'};
 }
@@ -369,7 +370,7 @@ function renderWeek(){
 function renderCal(){
   var now = new Date(), h = '', d;
   for (d = 0; d < 21; d++){ var a = dstart(now, d), list = evsOn(a, dstart(now, d + 1)); if (!list.length && d > 0) continue; var body = '', i;
-    for (i = 0; i < list.length; i++) body += list[i].allDay ? '<div class="ad">' + esc(list[i].title) + '</div>' : evHtml(list[i], now);
+    for (i = 0; i < list.length; i++) body += list[i].allDay ? adHtml(list[i]) : evHtml(list[i], now);
     h += '<div class="dd' + (d === 0 ? ' today' : '') + '"><h4>' + (d === 0 ? 'Hoy' : cap(DIAS[a.getDay()])) + ' ' + a.getDate() + ' de ' + MESES[a.getMonth()] + '</h4>' + (body || '<div class="more">Sin eventos</div>') + '</div>'; }
   $('calDays').innerHTML = h;
 }
