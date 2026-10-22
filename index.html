@@ -183,7 +183,7 @@ textarea{height:130px;font-size:26px}
      <div class="vsub" style="margin-top:16px">Cámara (Fully: Remote Admin activado). Contraseña de administración remota</div><input class="add" id="setCamPw" type="text" style="width:360px">
      <div class="vsub">URL de la imagen ({pw} = contraseña). Vacío = la propia tablet (http://localhost:2323)</div><input class="add" id="setCamUrl" type="text" style="width:100%">
      <div class="btn" id="saveSet">Guardar</div></div>
-    <div class="pane"><div class="vsub" id="calInfo"></div><div class="vsub" id="ptsInfo"></div><div class="btn l" id="resetCal">Olvidar calendario</div><div class="btn l" id="reload">Recargar página</div></div>
+    <div class="pane"><div class="vsub" id="calInfo"></div><div class="vsub" id="ptsInfo"></div><div class="vsub" id="verInfo"></div><div class="btn l" id="resetCal">Olvidar calendario</div><div class="btn l" id="reload">Recargar página</div></div>
   </div></div>
   <div id="status"></div>
  </div>
@@ -331,7 +331,7 @@ function demoEvents(){
 }
 function loadCalendar(){
   if (DEMO){ events = demoEvents(); renderAll(); $('status').textContent = 'Modo demostración'; return; }
-  fetch(calUrl).then(function(r){ return r.json(); }).then(function(j){ if (j.error) throw new Error(j.error); events = j.events || []; todo = j.todo || null; pts = j.pts || null; $('status').textContent = j.todoError ? 'Todoist: ' + j.todoError : (j.lastAction && j.lastAction.indexOf('ERROR') > -1 ? 'Última orden: ' + j.lastAction : ''); renderAll(); }).catch(function(){ $('status').textContent = 'Calendario sin conexión · ' + hhmm(new Date()); });
+  fetch(calUrl + (calUrl.indexOf('?') < 0 ? '?' : '&') + '_=' + new Date().getTime()).then(function(r){ return r.json(); }).then(function(j){ if (j.error) throw new Error(j.error); events = j.events || []; todo = j.todo || null; pts = j.pts || null; $('status').textContent = j.ptsError ? 'Puntos: ' + j.ptsError : (!j.pts ? 'Script sin datos de puntos: publica nueva versión' : '')  + (j.todoError ? ' Todoist: ' + j.todoError : (j.lastAction && j.lastAction.indexOf('ERROR') > -1 ? 'Última orden: ' + j.lastAction : '')); renderAll(); }).catch(function(){ $('status').textContent = 'Calendario sin conexión · ' + hhmm(new Date()); });
 }
 function adHtml(ev){ return '<div class="ad"' + (ev.color ? ' style="background:' + ev.color + ';color:#fff;font-weight:600"' : '') + '>' + esc(ev.title) + '</div>'; }
 function colorFor(t){ var p = String(t).split(':'); if (p.length < 2) return '#7a8aa0'; var h = 0, s = p[0], i; for (i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) % 997; return COLORS[h % COLORS.length]; }
@@ -651,6 +651,7 @@ $('resetCal').onclick = function(){ try { localStorage.removeItem('calUrl'); } c
 $('reload').onclick = function(){ location.reload(); };
 $('calInfo').textContent = DEMO ? 'Calendario: modo demostración (abre la página con ?cal=…)' : 'Calendario conectado ✓';
 $('ptsInfo').textContent = '';
+$('verInfo').textContent = 'Versión del panel: 22/10 · semanas, hoy resaltado, cámara completa, puntos v2';
 
 function renderAll(){ renderNext(); renderWeek(); renderCal(); renderRopa(); renderShop(); renderCasa(); renderKids(); }
 var lastDay = '';
