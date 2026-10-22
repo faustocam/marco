@@ -444,7 +444,7 @@ function api(q){
   if (DEMO || !calUrl) return;
   fetch(calUrl + (calUrl.indexOf('?') < 0 ? '?' : '&') + q).then(function(r){ return r.json(); }).then(function(j){
     if (j.error) throw new Error(j.error);
-    if (j.todoError) $('status').textContent = 'Todoist: ' + j.todoError; else $('status').textContent = '';
+    if (j.actionError) $('status').textContent = 'Todoist: ' + j.actionError; else if (j.todoError) $('status').textContent = 'Todoist: ' + j.todoError; else $('status').textContent = '';
     if (j.todo){ todo = j.todo; renderShop(); renderCasa(); renderWeek(); }
   }).catch(function(){ $('status').textContent = 'Sin conexión · el último cambio puede no haberse guardado'; });
 }
