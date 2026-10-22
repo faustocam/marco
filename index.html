@@ -9,7 +9,7 @@
 html,body{width:100%;height:100%;overflow:hidden;background:#f3ebe0;color:#2a2520;font-family:Roboto,"Helvetica Neue",Arial,sans-serif}
 #stage{position:absolute;left:50%;top:50%;width:1920px;height:1200px;display:flex;transform-origin:center center}
 #rail{width:136px;background:#efe3d3;display:flex;flex-direction:column;align-items:center;padding:36px 0 24px}
-.nb{width:84px;height:84px;border-radius:24px;margin-bottom:18px;display:flex;align-items:center;justify-content:center;color:#a8998a;cursor:pointer}
+.nb{width:80px;height:80px;border-radius:24px;margin-bottom:12px;display:flex;align-items:center;justify-content:center;color:#a8998a;cursor:pointer}
 .nb svg{width:42px;height:42px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 .nb.on{background:#fff;color:#1f2a44;box-shadow:0 2px 10px rgba(80,60,30,.12)}
 #rclock{margin-top:auto;font-size:60px;line-height:.95;font-weight:300;color:#7b6e61;text-align:center}
@@ -92,6 +92,8 @@ html,body{width:100%;height:100%;overflow:hidden;background:#f3ebe0;color:#2a252
 .rw .go.off{background:#e3dacd;color:#a39787}
 .shop{display:flex;align-items:center;font-size:40px;padding:18px 6px;border-bottom:1px solid #efe6da;cursor:pointer}
 .shop .bx{width:52px;height:52px;border-radius:14px;border:4px solid #c9bfb2;margin-right:22px;text-align:center;line-height:44px;font-size:36px;color:#fff;flex:none}
+.shop .due{font-size:24px;color:#7b6e61;margin-left:auto;padding-left:18px;white-space:nowrap}.shop .due.late{color:#d1243c;font-weight:600}.shop .due.today{color:#c9792a;font-weight:600}
+.tk{background:#fbe3c4;color:#7a4a12;border-radius:10px;padding:5px 10px;font-size:20px;margin-bottom:8px}
 .shop.done .bx{background:#2f9e5b;border-color:#2f9e5b}.shop.done .tx{color:#a39787;text-decoration:line-through}
 input.add,textarea{width:100%;font-size:30px;padding:14px 18px;border-radius:16px;border:2px solid #e0d5c7;background:#fff;margin-bottom:12px;font-family:inherit}
 textarea{height:130px;font-size:26px}
@@ -110,6 +112,13 @@ textarea{height:130px;font-size:26px}
 .pad{display:flex;flex-wrap:wrap;width:420px;margin:0 auto 14px}
 .pad div{width:130px;height:96px;margin:5px;background:#f0e8db;border-radius:20px;font-size:46px;line-height:96px;cursor:pointer}
 #night{position:fixed;left:0;top:0;right:0;bottom:0;background:#000;z-index:9;display:none;align-items:center;justify-content:center;color:#c0392b;font-size:300px;font-weight:300}
+#cam{position:absolute;left:136px;top:0;right:0;bottom:0;background:#000;z-index:8;display:none;align-items:center;justify-content:center}
+#camImg{max-width:calc(100% - 100px);max-height:calc(100% - 200px);display:none;border:14px solid #f3e6d2;border-radius:36px;box-shadow:0 0 0 4px #b9783c,0 10px 40px rgba(0,0,0,.6);background:#222}
+#camTag{position:absolute;left:50px;top:30px;display:flex;align-items:center;color:#f3e6d2;font-size:44px;font-weight:700;letter-spacing:1px}
+#camTag svg{width:62px;height:62px;margin-right:18px;fill:#d9955a}
+#camTag small{display:block;font-size:22px;font-weight:400;color:#b8a78f;letter-spacing:0}
+#camMsg{position:absolute;left:60px;right:60px;top:50%;margin-top:-80px;text-align:center;color:#d8cfc2;font-size:34px;line-height:1.4}
+#camX{position:absolute;right:36px;top:30px;background:rgba(255,255,255,.18);color:#fff;font-size:34px;padding:16px 30px;border-radius:40px;cursor:pointer}
 #status{position:absolute;right:44px;bottom:6px;font-size:18px;color:#a8998a}
 </style>
 </head>
@@ -121,7 +130,9 @@ textarea{height:130px;font-size:26px}
   <div class="nb" data-v="tiempo"><svg viewBox="0 0 24 24"><path d="M7 18a4 4 0 010-8 5.5 5.5 0 0110.6 1.5A3.3 3.3 0 0117 18z"/></svg></div>
   <div class="nb" data-v="tareas"><svg viewBox="0 0 24 24"><path d="M4 6l2 2 3-3M4 14l2 2 3-3M12 7h8M12 15h8"/></svg></div>
   <div class="nb" data-v="compra"><svg viewBox="0 0 24 24"><path d="M3 4h2l2.2 10.5a1 1 0 001 .8h8.6a1 1 0 001-.8L19 8H6"/><circle cx="9" cy="19" r="1.3"/><circle cx="17" cy="19" r="1.3"/></svg></div>
+  <div class="nb" data-v="casa"><svg viewBox="0 0 24 24"><rect x="5" y="4" width="14" height="17" rx="2.5"/><path d="M9 4V3h6v1M9 11l2 2 4-4M9 17h6"/></svg></div>
   <div class="nb" data-v="cena"><svg viewBox="0 0 24 24"><path d="M7 3v8M5 3v5a2 2 0 004 0V3M7 11v10M16 3c-2 1.5-3 4-3 7 0 1.5 1 2.5 3 2.5V21"/></svg></div>
+  <div class="nb" data-v="cam"><svg viewBox="0 0 24 24"><rect x="3" y="7" width="13" height="11" rx="2.5"/><path d="M16 11l5-3v8l-5-3z"/></svg></div>
   <div class="nb" data-v="ajustes"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M19 5l-2 2M7 17l-2 2"/></svg></div>
   <div class="nb" id="nightBtn"><svg viewBox="0 0 24 24"><path d="M20 14.5A8 8 0 019.5 4a8 8 0 1010.5 10.5z"/></svg></div>
   <div id="rclock"></div>
@@ -135,6 +146,7 @@ textarea{height:130px;font-size:26px}
     <div class="card bc" id="bSnack"></div>
     <div class="card bc" data-go="tareas" id="bKids"></div>
     <div class="card bc" data-go="compra" id="bShop"></div>
+    <div class="card bc" data-go="casa" id="bCasa"></div>
    </div>
   </div>
   <div class="view" id="v-cal"><div class="vt">Calendario</div><div class="days" id="calDays"></div></div>
@@ -145,6 +157,9 @@ textarea{height:130px;font-size:26px}
   </div></div>
   <div class="view" id="v-compra"><div class="vt">Lista de la compra</div><div class="pane">
     <input class="add" id="shopIn" placeholder="Añadir a la compra…"><div class="btn" id="shopAdd">Añadir</div><div class="btn l" id="shopClr">Quitar los tachados</div><div id="shopList" style="margin-top:14px"></div>
+  </div></div>
+  <div class="view" id="v-casa"><div class="vt">Pendientes de casa</div><div class="pane">
+    <input class="add" id="casaIn" placeholder="Nueva tarea (trámite, bricolaje…)" style="width:52%"> <input class="add" id="casaWhen" placeholder="Cuándo: mañana, viernes, 3 nov" style="width:34%"><div class="btn" id="casaAdd">Añadir</div><div id="casaInfo" class="vsub"></div><div id="casaList" style="margin-top:10px"></div>
   </div></div>
   <div class="view" id="v-cena"><div class="vt" id="cenaTitle">Cena de hoy</div><div id="cenaTabs" style="margin-bottom:14px"></div><div class="two">
     <div class="pane" style="flex:2.2" id="cenaMain"></div>
@@ -157,11 +172,14 @@ textarea{height:130px;font-size:26px}
      <div class="vsub">Tareas del peque (una por línea)</div><textarea id="setChores"></textarea>
      <div class="vsub">Premios: «🍕 Nombre = estrellas» (una por línea)</div><textarea id="setRewards"></textarea>
      <div class="vsub">Cenas extra, sin receta (una por línea)</div><textarea id="setDinners" style="height:90px"></textarea>
+     <div class="vsub" style="margin-top:16px">Cámara (Fully: Remote Admin activado). Contraseña de administración remota</div><input class="add" id="setCamPw" type="text" style="width:360px">
+     <div class="vsub">URL de la imagen ({pw} = contraseña). Vacío = la propia tablet (http://localhost:2323)</div><input class="add" id="setCamUrl" type="text" style="width:100%">
      <div class="btn" id="saveSet">Guardar</div></div>
     <div class="pane"><div class="vsub" id="calInfo"></div><div class="btn l" id="resetCal">Olvidar calendario</div><div class="btn l" id="reload">Recargar página</div></div>
   </div></div>
   <div id="status"></div>
  </div>
+ <div id="cam"><div id="camTag"><svg viewBox="0 0 24 24"><ellipse cx="5" cy="11" rx="2.2" ry="2.8"/><ellipse cx="9.5" cy="6" rx="2.2" ry="2.9"/><ellipse cx="14.5" cy="6" rx="2.2" ry="2.9"/><ellipse cx="19" cy="11" rx="2.2" ry="2.8"/><path d="M12 11c-3.2 0-6 3.3-6 6 0 2 1.6 3 3.2 3 1 0 1.8-.5 2.8-.5s1.8.5 2.8.5c1.6 0 3.2-1 3.2-3 0-2.7-2.8-6-6-6z"/></svg><div>Siena<small>Beagle · en directo</small></div></div><img id="camImg" alt=""><div id="camMsg"></div><div id="camX">✕ Volver</div></div>
  <div id="modal"><div id="mbox"></div></div>
 </div>
 <div id="night"></div>
@@ -196,9 +214,11 @@ window.addEventListener('resize', fit); fit();
 
 var calUrl = '';
 try { var mm = /[?&]cal=([^&]+)/.exec(location.search); if (mm) localStorage.setItem('calUrl', decodeURIComponent(mm[1])); calUrl = localStorage.getItem('calUrl') || ''; } catch (e) {}
-var DEMO = !calUrl, events = [], weather = null;
+var DEMO = !calUrl, events = [], weather = null, todo = null;
 
 function go(v){
+  if (v === 'cam'){ camOpen(); var nc = document.getElementsByClassName('nb'), j; for (j = 0; j < nc.length; j++) nc[j].className = 'nb' + (nc[j].getAttribute('data-v') === 'cam' ? ' on' : ''); return; }
+  if (camOn) camClose();
   var vs = document.getElementsByClassName('view'), i;
   for (i = 0; i < vs.length; i++) vs[i].className = 'view' + (vs[i].id === 'v-' + v ? ' on' : '');
   var nb = document.getElementsByClassName('nb');
@@ -207,6 +227,19 @@ function go(v){
 (function(){ var nb = document.getElementsByClassName('nb'), i; for (i = 0; i < nb.length; i++) (function(b){ if (b.getAttribute('data-v')) b.onclick = function(){ go(b.getAttribute('data-v')); }; })(nb[i]);
   var gs = document.querySelectorAll('[data-go]'); for (i = 0; i < gs.length; i++) (function(g){ g.onclick = function(){ go(g.getAttribute('data-go')); }; })(gs[i]);
   $('top').onclick = function(){ go('tiempo'); }; $('nxt').onclick = function(){ go('cal'); }; })();
+
+var CAMDEF = 'http://localhost:2323/?cmd=getCamshot&password={pw}', camOn = false, camT = 0;
+function camSrc(){ var u = lsGet('camUrl', '') || CAMDEF, pw = encodeURIComponent(String(lsGet('camPw', '') || '')); u = u.replace('{pw}', pw); return u + (u.indexOf('?') < 0 ? '?' : '&') + '_=' + new Date().getTime(); }
+function camLoop(){
+  if (!camOn) return;
+  var im = new Image();
+  im.onload = function(){ if (!camOn) return; $('camImg').src = im.src; $('camImg').style.display = 'block'; $('camMsg').style.display = 'none'; camT = setTimeout(camLoop, 700); };
+  im.onerror = function(){ if (!camOn) return; $('camImg').style.display = 'none'; $('camMsg').style.display = 'block'; $('camMsg').innerHTML = 'No llega imagen de Siena.<br>Revisa en Fully: Remote Administration activado y contraseña, y en Ajustes de esta página la misma contraseña.'; camT = setTimeout(camLoop, 3000); };
+  im.src = camSrc();
+}
+function camOpen(){ camOn = true; $('cam').style.display = 'flex'; $('camMsg').style.display = 'block'; $('camMsg').textContent = 'Buscando a Siena…'; $('camImg').style.display = 'none'; clearTimeout(camT); camLoop(); }
+function camClose(){ camOn = false; clearTimeout(camT); $('cam').style.display = 'none'; $('camImg').src = ''; var cv = document.querySelector('.view.on'), cn = document.getElementsByClassName('nb'), q; for (q = 0; q < cn.length; q++) cn[q].className = 'nb' + (cv && cn[q].getAttribute('data-v') === cv.id.slice(2) ? ' on' : ''); }
+$('camX').onclick = camClose;
 $('nightBtn').onclick = function(){ $('night').style.display = 'flex'; };
 $('night').onclick = function(){ $('night').style.display = 'none'; };
 
@@ -290,7 +323,7 @@ function demoEvents(){
 }
 function loadCalendar(){
   if (DEMO){ events = demoEvents(); renderAll(); $('status').textContent = 'Modo demostración'; return; }
-  fetch(calUrl).then(function(r){ return r.json(); }).then(function(j){ if (j.error) throw new Error(j.error); events = j.events || []; $('status').textContent = ''; renderAll(); }).catch(function(){ $('status').textContent = 'Calendario sin conexión · ' + hhmm(new Date()); });
+  fetch(calUrl).then(function(r){ return r.json(); }).then(function(j){ if (j.error) throw new Error(j.error); events = j.events || []; todo = j.todo || null; $('status').textContent = j.todoError ? 'Todoist: ' + j.todoError : ''; renderAll(); }).catch(function(){ $('status').textContent = 'Calendario sin conexión · ' + hhmm(new Date()); });
 }
 function colorFor(t){ var p = String(t).split(':'); if (p.length < 2) return '#7a8aa0'; var h = 0, s = p[0], i; for (i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) % 997; return COLORS[h % COLORS.length]; }
 function evsOn(a, b){ var out = [], i; for (i = 0; i < events.length; i++){ var s = new Date(events[i].start), e = new Date(events[i].end); if (s < b && e > a) out.push(events[i]); } return out; }
@@ -310,10 +343,11 @@ function renderNext(){
   $('nxt').innerHTML = '<div class="h"><div class="l">' + (cur ? 'AHORA' : 'LO PRÓXIMO') + '</div><div class="c">' + chip + '</div></div><div class="tt">' + esc(p.title) + '</div><div class="w">' + esc(sub) + '</div>';
 }
 function dayData(off, now, maxN){
-  var a = dstart(now, off), b = dstart(now, off + 1), list = evsOn(a, b), ad = '', body = '', n = 0, more = 0, i;
+  var a = dstart(now, off), b = dstart(now, off + 1), list = evsOn(a, b), ad = '', body = '', n = 0, more = 0, i, tk = casaOn(isoDay(a), off === 0), nt = (tk.match(/class="tk"/g) || []).length;
+  maxN = Math.max(1, maxN - nt);
   for (i = 0; i < list.length; i++){ if (list[i].allDay) ad += '<div class="ad">' + esc(list[i].title) + '</div>'; else if (n < maxN){ body += evHtml(list[i], now); n++; } else more++; }
   var dn = dinnerFor(off);
-  return {a: a, ev: ad + body + (more ? '<div class="more">+' + more + ' más</div>' : ''), din: '<div class="din" data-o="' + off + '">' + dn.e + ' ' + esc(dn.n) + '</div>'};
+  return {a: a, ev: tk + ad + body + (more ? '<div class="more">+' + more + ' más</div>' : ''), din: '<div class="din" data-o="' + off + '">' + dn.e + ' ' + esc(dn.n) + '</div>'};
 }
 function subBlock(x, off, name){ return '<div class="sub"><div class="sh' + (off === 0 ? ' today' : '') + '"><span>' + name + '</span><b>' + x.a.getDate() + '</b></div><div class="evs">' + x.ev + '</div>' + x.din + '</div>'; }
 function renderWeek(){
@@ -401,16 +435,76 @@ function renderKids(){
 /* ---------- compra ---------- */
 var shop = lsGet('shop', []);
 (function(){ var i; for (i = 0; i < shop.length; i++) if (typeof shop[i] === 'string') shop[i] = {t: shop[i], d: false}; })();
-function addShop(t){ var i; for (i = 0; i < shop.length; i++) if (shop[i].t.toLowerCase() === t.toLowerCase() && !shop[i].d) return; shop.push({t: t, d: false}); lsSet('shop', shop); }
+/* Todoist vía Apps Script: todo = {compra:[{id,t,due,o,x}], casa:[...]} ; null = sin Todoist (compra local) */
+function isoDay(d){ return d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate()); }
+function demoTodo(){ var n = new Date(); return {compra: [{id: 'd1', t: 'Leche', due: ''}, {id: 'd2', t: 'Pan', due: ''}, {id: 'd3', t: 'Manzanas', due: ''}], casa: [{id: 'c1', t: 'Renovar el DNI', due: '', o: 1}, {id: 'c2', t: 'Cita ITV del coche', due: isoDay(dstart(n, 2)), o: 2}, {id: 'c3', t: 'Cambiar el grifo de la cocina', due: '', o: 3}, {id: 'c4', t: 'Pagar el IBI', due: isoDay(dstart(n, -1)), o: 4}, {id: 'c5', t: 'Colgar las baldas del salón', due: '', o: 5}]}; }
+if (DEMO) todo = demoTodo();
+function api(q){
+  if (DEMO || !calUrl) return;
+  fetch(calUrl + (calUrl.indexOf('?') < 0 ? '?' : '&') + q).then(function(r){ return r.json(); }).then(function(j){
+    if (j.error) throw new Error(j.error);
+    if (j.todoError) $('status').textContent = 'Todoist: ' + j.todoError; else $('status').textContent = '';
+    if (j.todo){ todo = j.todo; renderShop(); renderCasa(); renderWeek(); }
+  }).catch(function(){ $('status').textContent = 'Sin conexión · el último cambio puede no haberse guardado'; });
+}
+function shopArr(){ var o = [], i; if (todo){ for (i = 0; i < todo.compra.length; i++) o.push({t: todo.compra[i].t, d: !!todo.compra[i].x, id: todo.compra[i].id}); return o; } return shop; }
+function addShop(t){
+  var i;
+  if (todo){ todo.compra.push({id: 'tmp' + new Date().getTime(), t: t, due: ''}); api('a=add&p=compra&c=' + encodeURIComponent(t)); return; }
+  for (i = 0; i < shop.length; i++) if (shop[i].t.toLowerCase() === t.toLowerCase() && !shop[i].d) return; shop.push({t: t, d: false}); lsSet('shop', shop);
+}
 function renderShop(){
-  var pend = [], i; for (i = 0; i < shop.length; i++) if (!shop[i].d) pend.push(shop[i].t);
+  var arr = shopArr(), pend = [], i; for (i = 0; i < arr.length; i++) if (!arr[i].d) pend.push(arr[i].t);
+  $('shopClr').style.display = todo ? 'none' : '';
   $('bShop').innerHTML = '<div class="k">COMPRA</div><div class="big">' + (pend.length ? pend.length + (pend.length === 1 ? ' cosa' : ' cosas') : 'Lista vacía') + '</div><div class="sm" style="white-space:normal;max-height:64px">' + esc(pend.slice(0, 4).join(' · ')) + '</div>';
-  var h = ''; for (i = 0; i < shop.length; i++) h += '<div class="shop' + (shop[i].d ? ' done' : '') + '" data-i="' + i + '"><div class="bx">' + (shop[i].d ? '✓' : '') + '</div><div class="tx">' + esc(shop[i].t) + '</div></div>';
+  var h = ''; for (i = 0; i < arr.length; i++) h += '<div class="shop' + (arr[i].d ? ' done' : '') + '" data-i="' + i + '"><div class="bx">' + (arr[i].d ? '✓' : '') + '</div><div class="tx">' + esc(arr[i].t) + '</div></div>';
   $('shopList').innerHTML = h || '<div class="vsub">Nada en la lista.</div>';
-  var ss = document.getElementsByClassName('shop'); for (i = 0; i < ss.length; i++) (function(s){ s.onclick = function(){ var ix = parseInt(s.getAttribute('data-i'), 10); shop[ix].d = !shop[ix].d; lsSet('shop', shop); renderShop(); }; })(ss[i]);
+  var ss = document.getElementById('shopList').getElementsByClassName('shop'); for (i = 0; i < ss.length; i++) (function(el){ el.onclick = function(){
+    var ix = parseInt(el.getAttribute('data-i'), 10);
+    if (todo){ var it = todo.compra[ix]; if (it.x) return; it.x = true; renderShop(); if (String(it.id).indexOf('tmp') !== 0) api('a=done&id=' + it.id); }
+    else { shop[ix].d = !shop[ix].d; lsSet('shop', shop); renderShop(); }
+  }; })(ss[i]);
 }
 $('shopAdd').onclick = function(){ var v = $('shopIn').value.replace(/^\s+|\s+$/g, ''); if (v){ addShop(v); $('shopIn').value = ''; renderShop(); } };
 $('shopClr').onclick = function(){ var o = [], i; for (i = 0; i < shop.length; i++) if (!shop[i].d) o.push(shop[i]); shop = o; lsSet('shop', shop); renderShop(); };
+
+/* ---------- pendientes de casa (Todoist) ---------- */
+function casaSorted(){
+  var l = [], i; if (!todo) return l;
+  for (i = 0; i < todo.casa.length; i++) l.push(todo.casa[i]);
+  l.sort(function(a, b){ var da = a.due ? a.due.slice(0, 10) : '9999', db = b.due ? b.due.slice(0, 10) : '9999'; return da < db ? -1 : da > db ? 1 : (a.o || 0) - (b.o || 0); });
+  return l;
+}
+function dueTxt(d){
+  if (!d) return null;
+  var day = d.slice(0, 10), now = new Date(), t0 = isoDay(now), t1 = isoDay(dstart(now, 1)), p = day.split('-'), dt = new Date(parseInt(p[0], 10), parseInt(p[1], 10) - 1, parseInt(p[2], 10));
+  var txt = DS[dt.getDay()] + ' ' + dt.getDate() + '/' + (dt.getMonth() + 1), cls = '';
+  if (day < t0){ cls = 'late'; txt = 'Vencida · ' + txt; } else if (day === t0){ cls = 'today'; txt = 'Hoy'; } else if (day === t1) txt = 'Mañana';
+  return {t: txt, c: cls};
+}
+function renderCasa(){
+  var l = casaSorted(), pend = [], i, h = '';
+  for (i = 0; i < l.length; i++) if (!l[i].x) pend.push(l[i]);
+  var tit = []; for (i = 0; i < pend.length && i < 3; i++) tit.push(pend[i].t);
+  var late = 0; for (i = 0; i < pend.length; i++) if (pend[i].due && pend[i].due.slice(0, 10) <= isoDay(new Date())) late++;
+  $('bCasa').innerHTML = '<div class="k">PENDIENTES</div><div class="big">' + (!todo ? 'Sin conectar' : pend.length ? pend.length + (pend.length === 1 ? ' tarea' : ' tareas') : 'Todo al día') + '</div><div class="sm" style="white-space:normal;max-height:64px">' + (late ? '<b style="color:#d1243c">' + late + ' para hoy o vencida' + (late > 1 ? 's' : '') + '</b> · ' : '') + esc(tit.join(' · ')) + '</div>';
+  $('casaInfo').textContent = todo ? '' : 'Todoist sin conectar: añade el token en las propiedades del script (ver instrucciones).';
+  for (i = 0; i < l.length; i++){ var du = dueTxt(l[i].due); h += '<div class="shop' + (l[i].x ? ' done' : '') + '" data-i="' + i + '"><div class="bx">' + (l[i].x ? '✓' : '') + '</div><div class="tx">' + esc(l[i].t) + '</div>' + (du ? '<div class="due ' + du.c + '">' + du.t + '</div>' : '') + '</div>'; }
+  $('casaList').innerHTML = h || (todo ? '<div class="vsub">Nada pendiente.</div>' : '');
+  var ss = $('casaList').getElementsByClassName('shop'); for (i = 0; i < ss.length; i++) (function(el){ el.onclick = function(){
+    var it = l[parseInt(el.getAttribute('data-i'), 10)]; if (it.x) return; it.x = true; renderCasa(); renderWeek(); if (String(it.id).indexOf('tmp') !== 0) api('a=done&id=' + it.id);
+  }; })(ss[i]);
+}
+$('casaAdd').onclick = function(){
+  var v = $('casaIn').value.replace(/^\s+|\s+$/g, ''), w = $('casaWhen').value.replace(/^\s+|\s+$/g, ''); if (!v || !todo) return;
+  todo.casa.push({id: 'tmp' + new Date().getTime(), t: v, due: '', o: 999}); $('casaIn').value = ''; $('casaWhen').value = ''; renderCasa();
+  api('a=add&p=casa&c=' + encodeURIComponent(v) + (w ? '&due=' + encodeURIComponent(w) : ''));
+};
+function casaOn(day, isToday){
+  var o = '', i, l = todo ? todo.casa : [];
+  for (i = 0; i < l.length; i++){ var d = l[i].due ? l[i].due.slice(0, 10) : ''; if (!d || l[i].x) continue; if (d === day || (isToday && d < day)) o += '<div class="tk">☐ ' + esc(l[i].t) + '</div>'; }
+  return o;
+}
 
 /* ---------- cenas con receta ---------- */
 var RECIPES = [
@@ -485,26 +579,27 @@ function renderSnackSet(){
 }
 function fillSettings(){
   var i, rt = ''; for (i = 0; i < REWARDS.length; i++) rt += REWARDS[i].e + ' ' + REWARDS[i].n + ' = ' + REWARDS[i].c + '\n';
-  $('setChores').value = CHORES.join('\n'); $('setRewards').value = rt; $('setDinners').value = CUSTOM.join('\n'); $('setPin').value = String(lsGet('pin', '') || '');
+  $('setChores').value = CHORES.join('\n'); $('setRewards').value = rt; $('setDinners').value = CUSTOM.join('\n'); $('setPin').value = String(lsGet('pin', '') || ''); $('setCamPw').value = String(lsGet('camPw', '') || ''); $('setCamUrl').value = String(lsGet('camUrl', '') || '');
 }
 $('saveSet').onclick = function(){
   CHORES = lines($('setChores').value); var r = parseRewards($('setRewards').value); if (r.length) REWARDS = r; CUSTOM = lines($('setDinners').value);
   var sins = document.getElementsByClassName('sin'), si; for (si = 0; si < sins.length; si++) SNACK[sins[si].getAttribute('data-d')] = sins[si].value.replace(/^\s+|\s+$/g, ''); lsSet('snack', SNACK); renderRopa();
   lsSet('chores', CHORES); lsSet('rewards', REWARDS); lsSet('dinnersX', CUSTOM); lsSet('pin', $('setPin').value.replace(/[^0-9]/g, '').slice(0, 4));
+  lsSet('camPw', $('setCamPw').value); lsSet('camUrl', $('setCamUrl').value.replace(/^\s+|\s+$/g, ''));
   kid.done = {}; lsSet('kid', kid); renderKids(); renderDinner(); $('saveSet').textContent = 'Guardado ✓';
 };
 $('resetCal').onclick = function(){ try { localStorage.removeItem('calUrl'); } catch (e) {} location.href = location.pathname; };
 $('reload').onclick = function(){ location.reload(); };
 $('calInfo').textContent = DEMO ? 'Calendario: modo demostración (abre la página con ?cal=…)' : 'Calendario conectado ✓';
 
-function renderAll(){ renderNext(); renderWeek(); renderCal(); renderRopa(); }
+function renderAll(){ renderNext(); renderWeek(); renderCal(); renderRopa(); renderShop(); renderCasa(); }
 var lastDay = '';
 function tick(){
   var n = new Date(); $('clock').textContent = hhmm(n); $('rclock').innerHTML = pad(n.getHours()) + '<br>' + pad(n.getMinutes()); $('night').textContent = hhmm(n);
   $('dateL').innerHTML = '<b>' + cap(DIAS[n.getDay()]) + '</b>' + n.getDate() + ' de ' + MESES[n.getMonth()]; renderNext();
   var k = dayKey(n); if (k !== lastDay){ lastDay = k; renderRopa(); renderKids(); renderDinner(); }
 }
-fillSettings(); renderSnackSet(); renderDressSet(); tick(); renderKids(); renderShop(); renderDinner(); loadCalendar(); loadWeather();
+renderCasa(); fillSettings(); renderSnackSet(); renderDressSet(); tick(); renderKids(); renderShop(); renderDinner(); loadCalendar(); loadWeather();
 setInterval(tick, 10000); setInterval(loadCalendar, 300000); setInterval(loadWeather, 1800000);
 setInterval(function(){ if (new Date().getHours() === 3 && new Date().getMinutes() < 1) location.reload(); }, 60000);
 </script>
