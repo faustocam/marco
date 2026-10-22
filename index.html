@@ -53,6 +53,8 @@ html,body{width:100%;height:100%;overflow:hidden;background:#f3ebe0;color:#2a252
 .ch{display:flex;justify-content:space-between;align-items:baseline;padding:0 4px 12px;border-bottom:2px solid #efe6da;margin-bottom:12px}
 .ch .a{font-size:26px;font-weight:500;color:#5a5047}.ch .b{font-size:36px;font-weight:600}
 .col.today .a,.col.today .b{color:#d1243c}
+.col.today,.sub.hoy{background:#fff6f3;box-shadow:inset 0 0 0 3px #e0455a}
+.col.today .ch{border-bottom-color:#f1c9c4}
 .ad{background:#cfe6d3;color:#2a5a3a;border-radius:10px;padding:5px 10px;font-size:20px;margin-bottom:8px}
 .ev{border-left:5px solid #7a8aa0;padding:2px 0 2px 12px;margin-bottom:14px}
 .ev .h{font-size:22px;color:#8b7f73}.ev .t{font-size:27px;line-height:1.15}
@@ -356,7 +358,7 @@ function dayData(off, now, maxN){
   var dn = dinnerFor(off);
   return {a: a, ev: tk + ad + body + (more ? '<div class="more">+' + more + ' más</div>' : ''), din: '<div class="din" data-o="' + off + '">' + dn.e + ' ' + esc(dn.n) + '</div>'};
 }
-function subBlock(x, off, name){ return '<div class="sub"><div class="sh' + (off === 0 ? ' today' : '') + '"><span>' + name + '</span><b>' + x.a.getDate() + '</b></div><div class="evs">' + x.ev + '</div>' + x.din + '</div>'; }
+function subBlock(x, off, name){ return '<div class="sub' + (off === 0 ? ' hoy' : '') + '"><div class="sh' + (off === 0 ? ' today' : '') + '"><span>' + name + '</span><b>' + x.a.getDate() + '</b></div><div class="evs">' + x.ev + '</div>' + x.din + '</div>'; }
 var weekShift = 0, weekT = 0, WMIN = -7, WMAX = 28;
 function shiftWeek(delta){
   weekShift = delta === 0 ? 0 : Math.max(WMIN, Math.min(WMAX, weekShift + delta)); renderWeek();
