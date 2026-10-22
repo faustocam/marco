@@ -445,7 +445,7 @@ function api(q){
   /* las órdenes se envían como petición simple (no dependen de leer la respuesta) y luego se relee Todoist */
   var im = new Image(); im.src = calUrl + (calUrl.indexOf('?') < 0 ? '?' : '&') + q + '&_=' + new Date().getTime();
   $('status').textContent = 'Guardando…';
-  setTimeout(loadCalendar, 7000); setTimeout(loadCalendar, 16000);
+  setTimeout(loadCalendar, 5000); setTimeout(loadCalendar, 14000);
 }
 function shopArr(){ var o = [], i; if (todo){ for (i = 0; i < todo.compra.length; i++) o.push({t: todo.compra[i].t, d: !!todo.compra[i].x, id: todo.compra[i].id}); return o; } return shop; }
 function addShop(t){
