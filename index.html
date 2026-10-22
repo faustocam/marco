@@ -323,7 +323,7 @@ function demoEvents(){
 }
 function loadCalendar(){
   if (DEMO){ events = demoEvents(); renderAll(); $('status').textContent = 'Modo demostración'; return; }
-  fetch(calUrl).then(function(r){ return r.json(); }).then(function(j){ if (j.error) throw new Error(j.error); events = j.events || []; todo = j.todo || null; $('status').textContent = j.todoError ? 'Todoist: ' + j.todoError : ''; renderAll(); }).catch(function(){ $('status').textContent = 'Calendario sin conexión · ' + hhmm(new Date()); });
+  fetch(calUrl).then(function(r){ return r.json(); }).then(function(j){ if (j.error) throw new Error(j.error); events = j.events || []; todo = j.todo || null; $('status').textContent = j.todoError ? 'Todoist: ' + j.todoError : (j.lastAction && j.lastAction.indexOf('ERROR') > -1 ? 'Última orden: ' + j.lastAction : ''); renderAll(); }).catch(function(){ $('status').textContent = 'Calendario sin conexión · ' + hhmm(new Date()); });
 }
 function adHtml(ev){ return '<div class="ad"' + (ev.color ? ' style="background:' + ev.color + ';color:#fff;font-weight:600"' : '') + '>' + esc(ev.title) + '</div>'; }
 function colorFor(t){ var p = String(t).split(':'); if (p.length < 2) return '#7a8aa0'; var h = 0, s = p[0], i; for (i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) % 997; return COLORS[h % COLORS.length]; }
