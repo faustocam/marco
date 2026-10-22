@@ -336,7 +336,8 @@ function loadCalendar(){
 }
 function adHtml(ev){ return '<div class="ad"' + (ev.color ? ' style="background:' + ev.color + ';color:#fff;font-weight:600"' : '') + '>' + esc(ev.title) + '</div>'; }
 function colorFor(t){ var p = String(t).split(':'); if (p.length < 2) return '#7a8aa0'; var h = 0, s = p[0], i; for (i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) % 997; return COLORS[h % COLORS.length]; }
-function evsOn(a, b){ var out = [], i; for (i = 0; i < events.length; i++){ var s = new Date(events[i].start), e = new Date(events[i].end); if (s < b && e > a) out.push(events[i]); } return out; }
+function adDate(iso){ var d = new Date(new Date(iso).getTime() + 43200000); return new Date(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate()); }
+function evsOn(a, b){ var out = [], i; for (i = 0; i < events.length; i++){ var v = events[i], s, e; if (v.allDay){ s = adDate(v.start); e = adDate(v.end); } else { s = new Date(v.start); e = new Date(v.end); } if (s < b && e > a) out.push(v); } return out; }
 function evHtml(ev, now){ var s = new Date(ev.start), past = !ev.allDay && new Date(ev.end) < now; return '<div class="ev' + (past ? ' past' : '') + '" style="border-left-color:' + (ev.color || colorFor(ev.title)) + '"><div class="h">' + hhmm(s) + '</div><div class="t">' + esc(ev.title) + (ev.location ? ' <span style="color:#8b7f73;font-size:22px">· ' + esc(shortLoc(ev.location)) + '</span>' : '') + '</div></div>'; }
 function renderNext(){
   var now = new Date(), cur = null, nxt = null, i;
