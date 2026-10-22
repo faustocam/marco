@@ -450,7 +450,7 @@ function api(q){
 function shopArr(){ var o = [], i; if (todo){ for (i = 0; i < todo.compra.length; i++) o.push({t: todo.compra[i].t, d: !!todo.compra[i].x, id: todo.compra[i].id}); return o; } return shop; }
 function addShop(t){
   var i;
-  if (todo){ todo.compra.push({id: 'tmp' + new Date().getTime(), t: t, due: ''}); api('a=add&p=compra&c=' + encodeURIComponent(t)); return; }
+  if (todo){ todo.compra.push({id: 'tmp' + new Date().getTime(), t: t, due: ''}); api('op=nueva&l=compra&x=' + encodeURIComponent(t)); return; }
   for (i = 0; i < shop.length; i++) if (shop[i].t.toLowerCase() === t.toLowerCase() && !shop[i].d) return; shop.push({t: t, d: false}); lsSet('shop', shop);
 }
 function renderShop(){
@@ -461,7 +461,7 @@ function renderShop(){
   $('shopList').innerHTML = h || '<div class="vsub">Nada en la lista.</div>';
   var ss = document.getElementById('shopList').getElementsByClassName('shop'); for (i = 0; i < ss.length; i++) (function(el){ el.onclick = function(){
     var ix = parseInt(el.getAttribute('data-i'), 10);
-    if (todo){ var it = todo.compra[ix]; if (it.x) return; it.x = true; renderShop(); if (String(it.id).indexOf('tmp') !== 0) api('a=done&id=' + it.id); }
+    if (todo){ var it = todo.compra[ix]; if (it.x) return; it.x = true; renderShop(); if (String(it.id).indexOf('tmp') !== 0) api('op=hecha&i=' + it.id); }
     else { shop[ix].d = !shop[ix].d; lsSet('shop', shop); renderShop(); }
   }; })(ss[i]);
 }
@@ -492,13 +492,13 @@ function renderCasa(){
   for (i = 0; i < l.length; i++){ var du = dueTxt(l[i].due); h += '<div class="shop' + (l[i].x ? ' done' : '') + '" data-i="' + i + '"><div class="bx">' + (l[i].x ? '✓' : '') + '</div><div class="tx">' + esc(l[i].t) + '</div>' + (du ? '<div class="due ' + du.c + '">' + du.t + '</div>' : '') + '</div>'; }
   $('casaList').innerHTML = h || (todo ? '<div class="vsub">Nada pendiente.</div>' : '');
   var ss = $('casaList').getElementsByClassName('shop'); for (i = 0; i < ss.length; i++) (function(el){ el.onclick = function(){
-    var it = l[parseInt(el.getAttribute('data-i'), 10)]; if (it.x) return; it.x = true; renderCasa(); renderWeek(); if (String(it.id).indexOf('tmp') !== 0) api('a=done&id=' + it.id);
+    var it = l[parseInt(el.getAttribute('data-i'), 10)]; if (it.x) return; it.x = true; renderCasa(); renderWeek(); if (String(it.id).indexOf('tmp') !== 0) api('op=hecha&i=' + it.id);
   }; })(ss[i]);
 }
 $('casaAdd').onclick = function(){
   var v = $('casaIn').value.replace(/^\s+|\s+$/g, ''), w = $('casaWhen').value.replace(/^\s+|\s+$/g, ''); if (!v || !todo) return;
   todo.casa.push({id: 'tmp' + new Date().getTime(), t: v, due: '', o: 999}); $('casaIn').value = ''; $('casaWhen').value = ''; renderCasa();
-  api('a=add&p=casa&c=' + encodeURIComponent(v) + (w ? '&due=' + encodeURIComponent(w) : ''));
+  api('op=nueva&l=casa&x=' + encodeURIComponent(v) + (w ? '&w=' + encodeURIComponent(w) : ''));
 };
 function casaOn(day, isToday){
   var o = '', i, l = todo ? todo.casa : [];
