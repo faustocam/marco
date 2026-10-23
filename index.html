@@ -165,6 +165,8 @@ body.dk .cfoto{background:#262a35!important}
 body.dk #top{background:linear-gradient(135deg,#0f1530,#232a55)!important}
 body.dk #nxt{background:#1f6f43!important}
 body.dk #modal{background:rgba(0,0,0,.7)}body.dk #mbox{background:#1e222b;color:#e9e6e1}body.dk .pad div{background:#2e3340}
+.rw.gran.azul{background:linear-gradient(135deg,#dcefff,#86bdf5);border-color:#2f7fd1;box-shadow:0 2px 10px rgba(47,127,209,.35)}.rw.gran.azul .n{color:#0f3a6b}.rw.gran.azul .c{color:#2f5f94}.rw.gran.azul .bar{background:#bcdcf8}.rw.gran.azul .bar div{background:#2f7fd1}
+body.dk .rw.gran.azul{background:linear-gradient(135deg,#12294a,#1c4777)!important;border-color:#3b82d6!important}body.dk .rw.gran.azul .n{color:#cfe6ff!important}body.dk .rw.gran.azul .c{color:#8fb8e8!important}body.dk .rw.gran.azul .bar{background:rgba(134,189,245,.2)!important}body.dk .rw.gran.azul .bar div{background:#3b82d6!important}
 #bKids{background:linear-gradient(135deg,#fff1c2,#ffd36e)!important;box-shadow:inset 0 0 0 4px #e8a317,0 2px 10px rgba(232,163,23,.35)!important}
 #bKids .k{color:#8a5a00;font-size:24px}#bKids .big{color:#5a3a00}#bKids .sm{color:#7a5a1a}
 #bKids .bar{background:rgba(138,90,0,.2)}#bKids .bar div{background:#e8a317}
@@ -540,7 +542,7 @@ function renderPts(){
   }; })(cs[i]);
   var rh = '';
   for (i = 0; i < rs.length; i++){ var r = rs[i], hi = esHito(r), cur = hi ? pts.total : pts.saldo, dn = hi && hecho(r), ok = cur >= r.p && !dn;
-    rh += '<div class="rw' + (r.t === 'gordo' ? ' gran' : '') + '"><div class="e">' + r.e + '</div><div class="m"><div class="n">' + (r.t === 'gordo' ? '✨ ' : '') + esc(r.n) + '</div><div class="c">' + r.p + ' ⭐ · ' + (dn ? '✓ conseguido' : ok ? '¡listo!' : 'faltan ' + (r.p - cur)) + (hi ? ' · hito' : ' · se gasta') + '</div><div class="bar" style="margin-top:8px;height:10px"><div style="width:' + Math.min(100, Math.round(100 * cur / r.p)) + '%"></div></div></div><div class="go' + (ok ? '' : ' off') + '" data-r="' + i + '">Canjear</div></div>'; }
+    rh += '<div class="rw' + (r.t === 'gordo' ? ' gran' : r.t === 'especial' ? ' gran azul' : '') + '"><div class="e">' + r.e + '</div><div class="m"><div class="n">' + (r.t === 'gordo' || r.t === 'especial' ? '✨ ' : '') + esc(r.n) + '</div><div class="c">' + r.p + ' ⭐ · ' + (dn ? '✓ conseguido' : ok ? '¡listo!' : 'faltan ' + (r.p - cur)) + (hi ? ' · hito' : ' · se gasta') + '</div><div class="bar" style="margin-top:8px;height:10px"><div style="width:' + Math.min(100, Math.round(100 * cur / r.p)) + '%"></div></div></div><div class="go' + (ok ? '' : ' off') + '" data-r="' + i + '">Canjear</div></div>'; }
   if (pts.ult && pts.ult.length){ rh += '<div class="vsub" style="margin-top:18px">Últimos movimientos</div>'; for (i = 0; i < pts.ult.length && i < 3; i++) rh += '<div class="mv"><span>' + esc(pts.ult[i].f.slice(5).split('-').reverse().join('/')) + ' · ' + esc(pts.ult[i].c) + '</span><b class="' + (pts.ult[i].p < 0 ? 'neg' : '') + '">' + (pts.ult[i].p > 0 ? '+' : '') + pts.ult[i].p + '</b></div>'; }
   $('rewards').innerHTML = rh;
   var gs = $('rewards').getElementsByClassName('go');
