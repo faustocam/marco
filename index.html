@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Marco"><meta name="apple-mobile-web-app-status-bar-style" content="default"><link rel="apple-touch-icon" href="icon.png">
 <title>Marco familiar</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
@@ -173,6 +174,51 @@ body.dk .rw.gran.azul{background:linear-gradient(135deg,#12294a,#1c4777)!importa
 body.dk #bKids{background:linear-gradient(135deg,#3d3010,#5a4512)!important;box-shadow:inset 0 0 0 4px #b8860b!important}
 body.dk #bKids .k{color:#ffd36e}body.dk #bKids .big{color:#ffe9b0}body.dk #bKids .sm{color:#d9bf7a}
 body.dk #bKids .bar{background:rgba(255,211,110,.2)}body.dk #bKids .bar div{background:#e8a317}
+
+/* ---------- vista móvil ---------- */
+#mob{display:none}
+html.mob #stage,html.mob #night{display:none!important}
+html.mob body{overflow:hidden}
+html.mob #mob{display:flex;position:fixed;left:0;top:0;right:0;bottom:0;flex-direction:column;background:var(--bg);color:var(--tx);font-size:16px;z-index:5;--bg:#f3ebe0;--cd:#fffdf9;--tx:#2a2520;--sb:#7b6e61;--ln:#efe6da}
+body.dk #mob{--bg:#14161c;--cd:#1e222b;--tx:#e9e6e1;--sb:#8f95a3;--ln:#2e3340}
+#mBody{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:14px 14px 24px}
+#mTabs{display:flex;background:var(--cd);border-top:1px solid var(--ln);padding:6px 6px calc(8px + env(safe-area-inset-bottom))}
+#mTabs div{flex:1;text-align:center;padding:6px 0;font-size:12px;color:var(--sb);border-radius:12px}
+#mTabs div b{display:block;font-size:22px;font-weight:400;line-height:1.2}
+#mTabs div.on{color:var(--tx);font-weight:600;background:rgba(128,128,128,.14)}
+#mob .mc{background:var(--cd);border-radius:20px;padding:14px 16px;margin-bottom:12px;box-shadow:0 1px 3px rgba(80,60,30,.08)}
+#mob .mh{font-size:13px;letter-spacing:2px;font-weight:600;color:#c9792a;margin-bottom:6px}
+#mob .mt{font-size:26px;font-weight:600;margin-bottom:4px}
+#mob .ms{font-size:14px;color:var(--sb)}
+#mob .mhero{background:linear-gradient(135deg,#1c2548,#38407a);color:#fff;display:flex;align-items:center}
+#mob .mhero .mi2{font-size:44px;line-height:1}#mob .mhero .mtt{font-size:38px;font-weight:300;line-height:1}#mob .mhero .mmm{font-size:13px;color:#c4caf0}
+#mob .mhero{flex-wrap:wrap}#mob .mhero .mw{display:flex;width:100%;margin-top:12px}
+#mob .mw .w5{flex:1;width:auto;height:auto;margin-right:6px;padding:8px 0;border-radius:14px}
+#mob .mw .w5:last-child{margin-right:0}#mob .mw .w5 .n{font-size:12px}#mob .mw .w5 .i{font-size:22px;margin:3px 0}#mob .mw .w5 .x{font-size:18px}#mob .mw .w5 .r{font-size:11px;margin-top:2px}
+#mob .mnx{background:#2f9e5b;color:#fff}#mob .mnx .mh{color:#d3f2de}#mob .mnx .ms{color:#e3f7ea}
+#mob .mrow{display:flex;gap:12px}#mob .mrow .mc{flex:1;margin-bottom:12px}
+#mob .mday{font-size:15px;font-weight:600;margin:14px 4px 6px;color:var(--sb)}#mob .mday.hoy{color:#d1243c}
+#mob .ev{border-left:4px solid #7a8aa0;padding:2px 0 2px 10px;margin-bottom:10px}
+#mob .ev .h{font-size:13px}#mob .ev .t{font-size:17px;line-height:1.2}#mob .ev .t span{font-size:13px!important}
+#mob .ad{font-size:14px;padding:4px 10px;margin-bottom:6px}#mob .tk{font-size:14px;padding:4px 10px;margin-bottom:6px}
+#mob .mempty{font-size:13px;color:var(--sb);margin:0 4px 6px}
+#mob .mli{display:flex;align-items:center;padding:13px 4px;border-bottom:1px solid var(--ln);font-size:18px}
+#mob .mli .bx{width:28px;height:28px;border-radius:8px;border:2.5px solid #c9bfb2;margin-right:14px;flex:none;text-align:center;line-height:23px;font-size:18px;color:#fff}
+#mob .mli.done .bx{background:#2f9e5b;border-color:#2f9e5b}#mob .mli.done .tx{color:var(--sb);text-decoration:line-through}
+#mob .mli .due{margin-left:auto;padding-left:10px;font-size:13px;color:var(--sb);white-space:nowrap}#mob .mli .due.late{color:#d1243c;font-weight:600}#mob .mli .due.today{color:#c9792a;font-weight:600}
+#mob .mli .pp{margin-left:auto;padding-left:10px;font-size:16px;font-weight:600;color:#c9792a}
+#mob .madd{display:flex;gap:8px;margin-bottom:10px;flex-wrap:wrap}
+#mob .madd input{flex:1;min-width:0;font-size:17px;padding:11px 14px;border-radius:14px;border:1.5px solid var(--ln);background:var(--cd);color:var(--tx);font-family:inherit;margin:0;width:auto}
+#mob .madd .mb{background:#1f2a44;color:#fff;border-radius:14px;padding:11px 18px;font-size:17px}
+#mob .mgold{background:linear-gradient(135deg,#fff1c2,#ffd36e);box-shadow:inset 0 0 0 3px #e8a317;color:#5a3a00}
+body.dk #mob .mgold{background:linear-gradient(135deg,#3d3010,#5a4512);box-shadow:inset 0 0 0 3px #b8860b;color:#ffe9b0}
+#mob .mgold .mh{color:#8a5a00}body.dk #mob .mgold .mh{color:#ffd36e}
+#mob .mrw{padding:10px 0;border-bottom:1px solid var(--ln)}
+#mob .mrw .r1{display:flex;align-items:center;font-size:17px}#mob .mrw .e{font-size:26px;margin-right:12px}
+#mob .mrw .r2{font-size:13px;color:var(--sb);margin-top:2px}
+#mob .mbar{height:8px;background:rgba(128,128,128,.2);border-radius:4px;margin-top:6px;overflow:hidden}#mob .mbar div{height:100%;background:#2f9e5b}
+#mob .mrw.gran .mbar div{background:#e8a317}#mob .mrw.azul .mbar div{background:#2f7fd1}
+#mob .mmv{display:flex;justify-content:space-between;font-size:14px;color:var(--sb);padding:4px 2px}#mob .mmv b{color:#2f9e5b}#mob .mmv b.neg{color:#d1243c}
 </style>
 </head>
 <body>
@@ -235,6 +281,7 @@ body.dk #bKids .bar{background:rgba(255,211,110,.2)}body.dk #bKids .bar div{back
  <div id="cam"><div id="camTag"><svg viewBox="0 0 24 24"><ellipse cx="5" cy="11" rx="2.2" ry="2.8"/><ellipse cx="9.5" cy="6" rx="2.2" ry="2.9"/><ellipse cx="14.5" cy="6" rx="2.2" ry="2.9"/><ellipse cx="19" cy="11" rx="2.2" ry="2.8"/><path d="M12 11c-3.2 0-6 3.3-6 6 0 2 1.6 3 3.2 3 1 0 1.8-.5 2.8-.5s1.8.5 2.8.5c1.6 0 3.2-1 3.2-3 0-2.7-2.8-6-6-6z"/></svg><div>Siena<small>Beagle · en directo</small></div></div><img id="camImg" alt=""><div id="camMsg"></div><div id="camX">✕ Volver</div></div>
  <div id="modal"><div id="mbox"></div></div>
 </div>
+<div id="mob"><div id="mBody"></div><div id="mTabs"><div data-t="hoy"><b>🏠</b>Hoy</div><div data-t="compra"><b>🛒</b>Compra</div><div data-t="casa"><b>✅</b>Casa</div><div data-t="faus"><b>⭐</b>Faus</div></div></div>
 <div id="night"></div>
 <script>
 var LAT = 40.44, LON = -3.61;
@@ -255,8 +302,11 @@ function dayKey(d){ return d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' +
 function lines(s){ var a = s.split('\n'), o = [], i; for (i = 0; i < a.length; i++){ var t = a[i].replace(/^\s+|\s+$/g, ''); if (t) o.push(t); } return o; }
 
 /* escala */
+var MOBILE = (window.innerWidth < 700 && window.innerHeight > window.innerWidth) || /[?&]m=1/.test(location.search);
+if (MOBILE) document.documentElement.className = 'mob';
 var DIAG = /[?&]diag/.test(location.search);
 function fit(){
+  if (MOBILE) return;
   var s = Math.min(window.innerWidth / 1920, window.innerHeight / 1200), zo = 0;
   try { var mz = /[?&]z=([0-9.]+)/.exec(location.search); if (mz) localStorage.setItem('zoom', mz[1]); zo = parseFloat(localStorage.getItem('zoom')) || 0; } catch (e) {}
   if (zo > 0) s = zo;
@@ -334,7 +384,7 @@ function askPin(msg, cb){
 function wIcon(c){ if (c === 0) return '☀️'; if (c <= 2) return '⛅'; if (c === 3) return '☁️'; if (c === 45 || c === 48) return '🌁'; if (c >= 51 && c <= 67) return '☔'; if (c >= 71 && c <= 77) return '❄️'; if (c >= 80 && c <= 82) return '☔'; if (c >= 95) return '⚡'; return '⛅'; }
 function loadWeather(){
   var url = 'https://api.open-meteo.com/v1/forecast?latitude=' + LAT + '&longitude=' + LON + '&current=temperature_2m,weather_code&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max&hourly=temperature_2m,precipitation_probability,weather_code&timezone=Europe%2FMadrid&forecast_days=7';
-  fetch(url).then(function(r){ return r.json(); }).then(function(j){ weather = j; renderWeather(); renderRopa(); }).catch(function(){ $('status').textContent = 'Sin datos del tiempo'; });
+  fetch(url).then(function(r){ return r.json(); }).then(function(j){ weather = j; renderWeather(); renderRopa(); renderMob(); }).catch(function(){ $('status').textContent = 'Sin datos del tiempo'; });
 }
 function adviceFor(){
   var j = weather, out = [];
@@ -724,12 +774,120 @@ $('calInfo').textContent = DEMO ? 'Calendario: modo demostración (abre la pági
 $('ptsInfo').textContent = '';
 $('verInfo').textContent = 'Versión del panel: 22/10 · semanas, hoy resaltado, cámara completa, puntos v2';
 
-function renderAll(){ renderNext(); renderWeek(); renderCal(); renderRopa(); renderShop(); renderCasa(); renderKids(); }
+
+/* ---------- vista móvil ---------- */
+var mTab = lsGet('mTab', 'hoy');
+function mobWeather(){
+  var j = weather; if (!j) return '';
+  var nw = new Date(), hr = j.hourly, base = nw.getHours() >= 22 ? 1 : 0, SL = [['Mañana', 9], ['Mediodía', 14], ['Tarde', 18], ['Noche', 22]], k, ix, tv, pv, cl, h = '';
+  for (k = 0; k < SL.length; k++){
+    ix = hr.time.indexOf(isoDay(dstart(nw, base)) + 'T' + pad(SL[k][1]) + ':00'); if (ix < 0) continue;
+    tv = Math.round(hr.temperature_2m[ix]); pv = hr.precipitation_probability[ix]; cl = tv <= 9 ? 'fr' : tv >= 25 ? 'ca' : '';
+    h += '<div class="w5' + (base === 0 && SL[k][1] < nw.getHours() ? ' pa' : '') + '"><div class="n">' + SL[k][0] + '</div><div class="i">' + wIcon(hr.weather_code[ix]) + '</div><div class="x ' + cl + '">' + tv + '°</div><div class="r">' + (pv >= 10 ? '💧' + pv + '%' : '&nbsp;') + '</div></div>';
+  }
+  return '<div class="mc mhero"><div><div class="mi2">' + wIcon(j.current.weather_code) + '</div></div><div style="margin-left:10px"><div class="mtt">' + Math.round(j.current.temperature_2m) + '°</div><div class="mmm">' + Math.round(j.daily.temperature_2m_min[0]) + '° / ' + Math.round(j.daily.temperature_2m_max[0]) + '°</div></div><div class="mw">' + h + '</div></div>';
+}
+function mobNext(){
+  var now = new Date(), cur = null, nxt = null, i, ev, s, e;
+  for (i = 0; i < events.length; i++){ ev = events[i]; if (ev.allDay) continue; s = new Date(ev.start); e = new Date(ev.end); if (s <= now && e > now && !cur) cur = ev; if (s > now && !nxt) nxt = ev; }
+  var p = cur || nxt; if (!p) return '<div class="mc mnx"><div class="mh">LO PRÓXIMO</div><div class="mt">Nada pendiente</div></div>';
+  var s2 = new Date(p.start), e2 = new Date(p.end), dd = Math.round((dstart(s2) - dstart(now)) / 86400000);
+  var when = cur ? 'En curso · hasta las ' + hhmm(e2) : (dd === 0 ? 'Hoy' : dd === 1 ? 'Mañana' : cap(DIAS[s2.getDay()])) + ' · ' + hhmm(s2) + '–' + hhmm(e2);
+  return '<div class="mc mnx"><div class="mh">' + (cur ? 'AHORA' : 'LO PRÓXIMO') + '</div><div class="mt">' + esc(p.title) + '</div><div class="ms">' + esc(when) + (p.location ? ' · ' + esc(shortLoc(p.location)) : '') + '</div></div>';
+}
+function mobHoy(){
+  var now = new Date(), h = '', i, d, list, k, tk, hasAny;
+  h += '<div class="mt" style="margin:2px 4px 12px">' + cap(DIAS[now.getDay()]) + ' ' + now.getDate() + ' de ' + MESES[now.getMonth()] + '</div>';
+  h += mobNext() + mobWeather();
+  var dr = dressFor(now), sn = snackFor(0), ss = sn ? snackStyle(sn) : null;
+  h += '<div class="mrow"><div class="mc"><div class="mh">ROPA</div><div class="mt" style="font-size:20px">' + dr.e + ' ' + dr.n + '</div></div><div class="mc"><div class="mh">ALMUERZO</div><div class="mt" style="font-size:20px">' + (sn ? ss.e + ' ' + esc(sn) : '🏠 Sin cole') + '</div></div></div>';
+  var a = adviceFor(), tips = '';
+  for (i = 0; i < a.length && i < 2; i++) tips += '<span class="tip">' + a[i].e + ' ' + a[i].s + '</span>';
+  if (tips) h += '<div style="margin:-4px 0 12px">' + tips + '</div>';
+  var cena = dinnerFor(0);
+  h += '<div class="mc"><div class="mh">CENA DE HOY</div><div class="mt" style="font-size:20px">' + cena.e + ' ' + esc(cena.n) + '</div>' + (cena.i.length ? '<div class="ms">⏱ ' + cena.t + ' min · <span id="mIng" style="color:#2f7fd1;font-weight:600">➕ añadir ingredientes a la compra</span></div>' : '') + '</div>';
+  for (i = 0; i < 7; i++){
+    d = dstart(now, i); list = evsOn(d, dstart(now, i + 1)); tk = casaOn(isoDay(d), i === 0);
+    h += '<div class="mday' + (i === 0 ? ' hoy' : '') + '">' + (i === 0 ? 'Hoy' : i === 1 ? 'Mañana' : cap(DIAS[d.getDay()])) + ' · ' + d.getDate() + ' ' + MESES[d.getMonth()].slice(0, 3) + '</div>';
+    hasAny = tk.length > 0 || list.length > 0;
+    if (!hasAny) h += '<div class="mempty">Sin eventos</div>';
+    h += tk;
+    for (k = 0; k < list.length; k++) h += list[k].allDay ? adHtml(list[k]) : evHtml(list[k], now);
+  }
+  return h;
+}
+function mobList(arr, kind){
+  var h = '', i;
+  for (i = 0; i < arr.length; i++){ var du = kind === 'casa' ? dueTxt(arr[i].due) : null;
+    h += '<div class="mli' + (arr[i].d ? ' done' : '') + '" data-i="' + i + '"><div class="bx">' + (arr[i].d ? '✓' : '') + '</div><div class="tx">' + esc(arr[i].t) + '</div>' + (du ? '<div class="due ' + du.c + '">' + du.t + '</div>' : '') + '</div>'; }
+  return h;
+}
+function mobCompra(){
+  var arr = shopArr();
+  return '<div class="mt" style="margin:2px 4px 12px">🛒 Compra</div><div class="madd"><input id="mShopIn" placeholder="Añadir a la compra" autocomplete="off"><div class="mb" id="mShopAdd">+</div></div>' + (mobList(arr, 'compra') || '<div class="mempty">Lista vacía.</div>');
+}
+function mobCasa(){
+  var l = casaSorted(), arr = [], i;
+  for (i = 0; i < l.length; i++) arr.push({t: l[i].t, d: !!l[i].x, due: l[i].due});
+  return '<div class="mt" style="margin:2px 4px 12px">✅ Pendientes de casa</div>' + (todo ? '<div class="madd"><input id="mCasaIn" placeholder="Nueva tarea" autocomplete="off"><input id="mCasaWhen" placeholder="cuándo (opcional)" autocomplete="off"><div class="mb" id="mCasaAdd">+</div></div>' : '<div class="mempty">Todoist sin conectar.</div>') + (mobList(arr, 'casa') || (todo ? '<div class="mempty">Nada pendiente.</div>' : ''));
+}
+function mobFaus(){
+  if (!pts) return '<div class="mt" style="margin:2px 4px 12px">⭐ Faus</div><div class="mempty">Puntos sin conectar.</div>';
+  var tot = ptsTotal(), hoy = 0, hechas = 0, i, h = '', rs = pts.premios.slice().sort(function(a, b){ return a.p - b.p; }), hoyD = isoDay(new Date());
+  if (pts.total == null) pts.total = pts.saldo; pts.hit = pts.hit || {};
+  for (i = 0; i < pts.tareas.length; i++) if (pts.hoy[pts.tareas[i].n]){ hoy += pts.tareas[i].p; hechas++; }
+  h += '<div class="mc mgold"><div class="mh">⭐ FAUS</div><div class="mt">' + hoy + ' de ' + tot + ' ⭐ hoy</div><div class="ms" style="color:inherit;opacity:.8">' + pts.saldo + ' para gastar · ' + pts.total + ' en total</div></div>';
+  var arr = []; for (i = 0; i < pts.tareas.length; i++) arr.push({t: pts.tareas[i].e + ' ' + pts.tareas[i].n, d: !!pts.hoy[pts.tareas[i].n]});
+  for (i = 0; i < arr.length; i++) h += '<div class="mli' + (arr[i].d ? ' done' : '') + '" data-i="' + i + '"><div class="bx">' + (arr[i].d ? '✓' : '') + '</div><div class="tx">' + esc(arr[i].t) + '</div><div class="pp">+' + pts.tareas[i].p + '</div></div>';
+  h += '<div class="mday">Premios</div>';
+  for (i = 0; i < rs.length; i++){ var r = rs[i], hi = r.t && r.t !== 'pequeño', cur = hi ? pts.total : pts.saldo, dn = hi && !!pts.hit[r.n] && (r.t !== 'mensual' || pts.hit[r.n].slice(0, 7) === hoyD.slice(0, 7));
+    h += '<div class="mrw' + (r.t === 'gordo' ? ' gran' : r.t === 'especial' ? ' azul' : '') + '"><div class="r1"><div class="e">' + r.e + '</div><div>' + esc(r.n) + '</div></div><div class="r2">' + r.p + ' ⭐ · ' + (dn ? '✓ conseguido' : cur >= r.p ? '¡listo!' : 'faltan ' + (r.p - cur)) + '</div><div class="mbar"><div style="width:' + Math.min(100, Math.round(100 * cur / r.p)) + '%"></div></div></div>'; }
+  if (pts.ult && pts.ult.length){ h += '<div class="mday">Últimos movimientos</div>'; for (i = 0; i < pts.ult.length && i < 3; i++) h += '<div class="mmv"><span>' + esc(pts.ult[i].f.slice(5).split('-').reverse().join('/')) + ' · ' + esc(pts.ult[i].c) + '</span><b class="' + (pts.ult[i].p < 0 ? 'neg' : '') + '">' + (pts.ult[i].p > 0 ? '+' : '') + pts.ult[i].p + '</b></div>'; }
+  return h;
+}
+function mobToggleTask(t){
+  var PIN = String(lsGet('pin', '') || '');
+  if (PIN){ var v = window.prompt('PIN de padres'); if (v === null) return; if (v !== PIN){ return; } }
+  if (pts.hoy[t.n]){ delete pts.hoy[t.n]; pts.saldo -= t.p; pts.total -= t.p; api('op=destarea&x=' + encodeURIComponent(t.n)); }
+  else { pts.hoy[t.n] = true; pts.saldo += t.p; pts.total += t.p; api('op=tarea&x=' + encodeURIComponent(t.n)); }
+  renderKids(); renderMob(true);
+}
+function renderMob(force){
+  if (!MOBILE) return;
+  var ae = document.activeElement; if (!force && ae && ae.tagName === 'INPUT' && $('mob').contains(ae)) return;
+  var b = $('mBody'), top = b.scrollTop, h, i, ts = $('mTabs').children;
+  for (i = 0; i < ts.length; i++){ ts[i].className = ts[i].getAttribute('data-t') === mTab ? 'on' : ''; ts[i].onclick = (function(t){ return function(){ mTab = t; lsSet('mTab', t); b.scrollTop = 0; renderMob(true); }; })(ts[i].getAttribute('data-t')); }
+  h = mTab === 'compra' ? mobCompra() : mTab === 'casa' ? mobCasa() : mTab === 'faus' ? mobFaus() : mobHoy();
+  b.innerHTML = h; b.scrollTop = top;
+  var els, it;
+  if (mTab === 'hoy' && $('mIng')) $('mIng').onclick = function(){ var r = dinnerFor(0), j; for (j = 0; j < r.i.length; j++) addShop(r.i[j]); renderShop(); $('mIng').textContent = '✓ añadido a la compra'; };
+  if (mTab === 'compra'){
+    $('mShopAdd').onclick = function(){ var v = $('mShopIn').value.replace(/^\s+|\s+$/g, ''); if (v){ addShop(v); renderShop(); renderMob(true); } };
+    els = b.getElementsByClassName('mli'); for (i = 0; i < els.length; i++) (function(el){ el.onclick = function(){
+      var ix = parseInt(el.getAttribute('data-i'), 10);
+      if (todo){ it = todo.compra[ix]; if (it.x) return; it.x = true; renderShop(); renderMob(true); if (String(it.id).indexOf('tmp') !== 0) api('op=hecha&i=' + it.id); }
+      else { shop[ix].d = !shop[ix].d; lsSet('shop', shop); renderShop(); renderMob(true); }
+    }; })(els[i]);
+  }
+  if (mTab === 'casa' && todo){
+    $('mCasaAdd').onclick = function(){ var v = $('mCasaIn').value.replace(/^\s+|\s+$/g, ''), w = $('mCasaWhen').value.replace(/^\s+|\s+$/g, ''); if (!v) return;
+      todo.casa.push({id: 'tmp' + new Date().getTime(), t: v, due: '', o: 999}); renderCasa(); renderWeek(); renderMob(true);
+      api('op=nueva&l=casa&x=' + encodeURIComponent(v) + (w ? '&w=' + encodeURIComponent(w) : '')); };
+    var cl = casaSorted();
+    els = b.getElementsByClassName('mli'); for (i = 0; i < els.length; i++) (function(el){ el.onclick = function(){
+      it = cl[parseInt(el.getAttribute('data-i'), 10)]; if (it.x) return; it.x = true; renderCasa(); renderWeek(); renderMob(true); if (String(it.id).indexOf('tmp') !== 0) api('op=hecha&i=' + it.id);
+    }; })(els[i]);
+  }
+  if (mTab === 'faus' && pts){
+    els = b.getElementsByClassName('mli'); for (i = 0; i < els.length; i++) (function(el){ el.onclick = function(){ mobToggleTask(pts.tareas[parseInt(el.getAttribute('data-i'), 10)]); }; })(els[i]);
+  }
+}
+function renderAll(){ renderNext(); renderWeek(); renderCal(); renderRopa(); renderShop(); renderCasa(); renderKids(); renderMob(); }
 var lastDay = '';
 function tick(){
   var n = new Date(); $('clock').textContent = hhmm(n); $('rclock').innerHTML = pad(n.getHours()) + '<br>' + pad(n.getMinutes()); $('night').textContent = hhmm(n);
   $('dateL').innerHTML = '<b>' + cap(DIAS[n.getDay()]) + '</b>' + n.getDate() + ' de ' + MESES[n.getMonth()]; renderNext();
-  var k = dayKey(n); if (k !== lastDay){ lastDay = k; renderRopa(); renderKids(); renderDinner(); }
+  var k = dayKey(n); if (k !== lastDay){ lastDay = k; renderRopa(); renderKids(); renderDinner(); renderMob(); }
 }
 renderCasa(); fillSettings(); renderSnackSet(); renderDressSet(); tick(); renderKids(); renderShop(); renderDinner(); loadCalendar(); loadWeather();
 setInterval(tick, 10000); setInterval(loadCalendar, 300000); setInterval(loadWeather, 1800000);
