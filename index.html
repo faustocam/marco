@@ -205,7 +205,7 @@ body.dk #bKids .bar{background:rgba(255,211,110,.2)}body.dk #bKids .bar div{back
   <div class="view" id="v-cal"><div class="vt">Calendario</div><div class="days" id="calDays"></div></div>
   <div class="view" id="v-tiempo"><div class="vt">Tiempo en Madrid</div><div id="advice"></div><div class="hrs" id="hrs"></div><div class="d7" id="d7"></div></div>
   <div class="view" id="v-tareas"><div class="vt">Tareas y premios</div><div class="two">
-    <div class="pane" style="flex:1.3"><div class="vsub" id="kidSub"></div><div id="chores"></div></div>
+    <div class="pane" style="flex:1.3"><div class="vsub" id="kidSub"></div><div id="chores"></div><div id="movs"></div></div>
     <div class="pane"><div class="vsub" id="starSub"></div><div id="rewards"></div></div>
   </div></div>
   <div class="view" id="v-compra"><div class="vt">Lista de la compra</div><div class="pane">
@@ -543,7 +543,8 @@ function renderPts(){
   var rh = '';
   for (i = 0; i < rs.length; i++){ var r = rs[i], hi = esHito(r), cur = hi ? pts.total : pts.saldo, dn = hi && hecho(r), ok = cur >= r.p && !dn;
     rh += '<div class="rw' + (r.t === 'gordo' ? ' gran' : r.t === 'especial' ? ' gran azul' : '') + '"><div class="e">' + r.e + '</div><div class="m"><div class="n">' + (r.t === 'gordo' || r.t === 'especial' ? '✨ ' : '') + esc(r.n) + '</div><div class="c">' + r.p + ' ⭐ · ' + (dn ? '✓ conseguido' : ok ? '¡listo!' : 'faltan ' + (r.p - cur)) + (hi ? ' · hito' : ' · se gasta') + '</div><div class="bar" style="margin-top:8px;height:10px"><div style="width:' + Math.min(100, Math.round(100 * cur / r.p)) + '%"></div></div></div><div class="go' + (ok ? '' : ' off') + '" data-r="' + i + '">Canjear</div></div>'; }
-  if (pts.ult && pts.ult.length){ rh += '<div class="vsub" style="margin-top:18px">Últimos movimientos</div>'; for (i = 0; i < pts.ult.length && i < 3; i++) rh += '<div class="mv"><span>' + esc(pts.ult[i].f.slice(5).split('-').reverse().join('/')) + ' · ' + esc(pts.ult[i].c) + '</span><b class="' + (pts.ult[i].p < 0 ? 'neg' : '') + '">' + (pts.ult[i].p > 0 ? '+' : '') + pts.ult[i].p + '</b></div>'; }
+  var mh = ''; if (pts.ult && pts.ult.length){ mh = '<div class="vsub" style="margin-top:18px;margin-bottom:6px">Últimos movimientos</div>'; for (i = 0; i < pts.ult.length && i < 3; i++) mh += '<div class="mv"><span>' + esc(pts.ult[i].f.slice(5).split('-').reverse().join('/')) + ' · ' + esc(pts.ult[i].c) + '</span><b class="' + (pts.ult[i].p < 0 ? 'neg' : '') + '">' + (pts.ult[i].p > 0 ? '+' : '') + pts.ult[i].p + '</b></div>'; }
+  $('movs').innerHTML = mh;
   $('rewards').innerHTML = rh;
   var gs = $('rewards').getElementsByClassName('go');
   for (i = 0; i < gs.length; i++) (function(g){ g.onclick = function(){
