@@ -94,6 +94,19 @@ html,body{width:100%;height:100%;overflow:hidden;background:#f3ebe0;color:#2a252
 .chore .bx{width:68px;height:68px;border-radius:18px;border:4px solid #c9bfb2;margin-right:26px;text-align:center;line-height:60px;font-size:46px;color:#fff;flex:none}
 .chore.done .bx{background:#2f9e5b;border-color:#2f9e5b}.chore.done .tx{color:#9a8f84;text-decoration:line-through}
 .chore .pp{margin-left:auto;font-size:34px;color:#c9792a;font-weight:600;padding-left:18px}
+.lgp{position:fixed;left:0;top:0;right:0;bottom:0;z-index:9999;background:rgba(30,20,0,.55);display:none;align-items:center;justify-content:center}
+.lgp .bx2{background:linear-gradient(135deg,#fff7d6,#ffd36e);border:6px solid #e8a317;border-radius:36px;padding:40px 56px;text-align:center;color:#5a3a00;max-width:80%;box-shadow:0 20px 60px rgba(0,0,0,.4)}
+.lgp .em{font-size:110px;line-height:1.1}.lgp .t1{font-size:34px;font-weight:800;margin-top:6px}.lgp .t2{font-size:30px;margin-top:10px}.lgp .t3{font-size:44px;font-weight:800;margin-top:12px;color:#b36b00}.lgp .t4{font-size:20px;margin-top:18px;opacity:.7}
+.xtp{position:fixed;left:0;top:0;right:0;bottom:0;z-index:9998;background:rgba(0,0,0,.5);display:none;align-items:center;justify-content:center}
+.xtp .bx3{background:#fff;color:#3b3228;border-radius:28px;padding:28px 34px;width:640px;max-width:92%;max-height:94%;overflow:auto;font-size:26px}
+.xtp .tt{font-size:32px;font-weight:800;margin-bottom:14px}.xtp .ch{display:flex;flex-wrap:wrap;gap:10px;margin:8px 0 14px}
+.xtp .ch span{padding:10px 22px;border-radius:22px;background:#f0e8db;cursor:pointer;font-weight:700}.xtp .ch span.on{background:#e8a317;color:#fff}
+.xtp input{font-size:26px;padding:10px 14px;border:2px solid #e2d6c4;border-radius:14px;width:100%;box-sizing:border-box;margin-bottom:12px;background:#fff;color:#3b3228}
+.xtp input.n{width:130px;margin:0}.xtp .bt{display:flex;gap:12px;margin-top:8px}.xtp .bt div{flex:1;text-align:center;padding:14px;border-radius:20px;font-weight:800;cursor:pointer;background:#f0e8db}.xtp .bt .ok{background:#2f9e5b;color:#fff}
+.xtp .er{color:#d1243c;font-size:22px;min-height:26px}
+body.dk .xtp .bx3{background:#1e222b;color:#e9e6e1}body.dk .xtp .ch span,body.dk .xtp .bt div{background:#2e3340}body.dk .xtp input{background:#14171d;color:#e9e6e1;border-color:#2e3340}body.dk .xtp .ch span.on{background:#b8860b}body.dk .xtp .bt .ok{background:#2f9e5b}
+.ins{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px}.ins span{background:#fff1c2;border:2px solid #e8a317;border-radius:22px;padding:4px 14px;font-size:24px;color:#5a3a00}
+#mob .ins span{font-size:16px;padding:3px 10px}
 .mv{display:flex;justify-content:space-between;font-size:24px;color:#5a5047;padding:6px 2px;border-bottom:1px solid #f1e9dd}.mv b{color:#2f9e5b}.mv b.neg{color:#d1243c}
 .rw{display:flex;align-items:center;padding:16px 4px;border-bottom:1px solid #efe6da}
 .rw.gran{background:linear-gradient(135deg,#fff1c2,#ffd36e);border:3px solid #e8a317;border-radius:22px;padding:18px 14px;margin:10px 0;box-shadow:0 2px 10px rgba(232,163,23,.35)}.rw.gran .n{font-weight:700;color:#7a4a05}.rw.gran .c{color:#8a6a2a}.rw.gran .bar{background:#f3dfa6}.rw.gran .bar div{background:#e8a317}
@@ -219,6 +232,14 @@ body.dk #mob .mgold{background:linear-gradient(135deg,#3d3010,#5a4512);box-shado
 #mob .mbar{height:8px;background:rgba(128,128,128,.2);border-radius:4px;margin-top:6px;overflow:hidden}#mob .mbar div{height:100%;background:#2f9e5b}
 #mob .mrw.gran .mbar div{background:#e8a317}#mob .mrw.azul .mbar div{background:#2f7fd1}
 #mob .mmv{display:flex;justify-content:space-between;font-size:14px;color:var(--sb);padding:4px 2px}#mob .mmv b{color:#2f9e5b}#mob .mmv b.neg{color:#d1243c}
+.who{display:inline-block;font-size:.78em;font-weight:600;border-radius:10px;padding:1px 8px;margin-left:6px;vertical-align:baseline;cursor:pointer;letter-spacing:0}
+.who.wm{background:#fbe0ea;color:#9c2150}.who.wp{background:#dbe8fb;color:#1f4f99}
+body.dk .who.wm{background:#4a2233;color:#ffb3cc}body.dk .who.wp{background:#1e3558;color:#a9cbff}
+#mob .mrw.gran{background:linear-gradient(135deg,#fff1c2,#ffd36e);box-shadow:inset 0 0 0 3px #e8a317;border-radius:16px;padding:10px 12px;margin:8px 0;border-bottom:none;color:#5a3a00}
+#mob .mrw.azul{background:linear-gradient(135deg,#dcefff,#86bdf5);box-shadow:inset 0 0 0 3px #2f7fd1;border-radius:16px;padding:10px 12px;margin:8px 0;border-bottom:none;color:#0f3a6b}
+#mob .mrw.gran .r2{color:#8a6a2a}#mob .mrw.azul .r2{color:#2f5f94}#mob .mrw.gran .mbar,#mob .mrw.azul .mbar{background:rgba(0,0,0,.12)}
+body.dk #mob .mrw.gran{background:linear-gradient(135deg,#3d3010,#5a4512);box-shadow:inset 0 0 0 3px #b8860b;color:#ffe9b0}body.dk #mob .mrw.gran .r2{color:#d9bf7a}
+body.dk #mob .mrw.azul{background:linear-gradient(135deg,#12294a,#1c4777);box-shadow:inset 0 0 0 3px #3b82d6;color:#cfe6ff}body.dk #mob .mrw.azul .r2{color:#8fb8e8}
 </style>
 </head>
 <body>
@@ -251,7 +272,7 @@ body.dk #mob .mgold{background:linear-gradient(135deg,#3d3010,#5a4512);box-shado
   <div class="view" id="v-cal"><div class="vt">Calendario</div><div class="days" id="calDays"></div></div>
   <div class="view" id="v-tiempo"><div class="vt">Tiempo en Madrid</div><div id="advice"></div><div class="hrs" id="hrs"></div><div class="d7" id="d7"></div></div>
   <div class="view" id="v-tareas"><div class="vt">Tareas y premios</div><div class="two">
-    <div class="pane" style="flex:1.3"><div class="vsub" id="kidSub"></div><div id="chores"></div><div id="movs"></div></div>
+    <div class="pane" style="flex:1.3"><div class="vsub" id="kidSub"></div><div id="chores"></div><div id="movs"></div><div class="btn" id="xtBtn" style="margin-top:18px">⭐ Premio extra</div></div>
     <div class="pane"><div class="vsub" id="starSub"></div><div id="rewards"></div></div>
   </div></div>
   <div class="view" id="v-compra"><div class="vt">Lista de la compra</div><div class="pane">
@@ -283,6 +304,8 @@ body.dk #mob .mgold{background:linear-gradient(135deg,#3d3010,#5a4512);box-shado
 </div>
 <div id="mob"><div id="mBody"></div><div id="mTabs"><div data-t="hoy"><b>🏠</b>Hoy</div><div data-t="compra"><b>🛒</b>Compra</div><div data-t="casa"><b>✅</b>Casa</div><div data-t="faus"><b>⭐</b>Faus</div></div></div>
 <div id="night"></div>
+<div class="lgp" id="lgp"><div class="bx2"><div class="em" id="lgE"></div><div class="t1" id="lgN"></div><div class="t2" id="lgM"></div><div class="t3" id="lgP"></div><div class="t4">Toca para cerrar</div></div></div>
+<div class="xtp" id="xtp"><div class="bx3"><div class="tt">⭐ Premio extra</div><div>¿Quién lo da?</div><div class="ch" id="xtW"><span data-v="Papá">Papá</span><span data-v="Mamá">Mamá</span><span data-v="Los dos">Los dos</span></div><div>Puntos</div><div class="ch" id="xtP"><span data-v="5">5</span><span data-v="10">10</span><span data-v="15">15</span><input class="n" id="xtN" type="tel" maxlength="2" placeholder="otro"></div><div>¿Por qué?</div><input id="xtT" maxlength="40" placeholder="Ej.: abrazo a los abuelos" autocomplete="off"><input id="xtPin" type="password" inputmode="numeric" maxlength="4" placeholder="PIN de padres" style="display:none" autocomplete="off"><div class="er" id="xtE"></div><div class="bt"><div id="xtNo">Cancelar</div><div class="ok" id="xtOk">Dar premio</div></div></div></div>
 <script>
 var LAT = 40.44, LON = -3.61;
 var DIAS = ['domingo','lunes','martes','miércoles','jueves','viernes','sábado'];
@@ -439,13 +462,35 @@ function demoEvents(){
 }
 function loadCalendar(){
   if (DEMO){ events = demoEvents(); renderAll(); $('status').textContent = 'Modo demostración'; return; }
-  fetch(calUrl + (calUrl.indexOf('?') < 0 ? '?' : '&') + '_=' + new Date().getTime()).then(function(r){ return r.json(); }).then(function(j){ if (j.error) throw new Error(j.error); events = j.events || []; todo = j.todo || null; pts = j.pts || null; $('status').textContent = j.ptsError ? 'Puntos: ' + j.ptsError : (!j.pts ? 'Script sin datos de puntos: publica nueva versión' : '')  + (j.todoError ? ' Todoist: ' + j.todoError : (j.lastAction && j.lastAction.indexOf('ERROR') > -1 ? 'Última orden: ' + j.lastAction : '')); renderAll(); }).catch(function(){ $('status').textContent = 'Calendario sin conexión · ' + hhmm(new Date()); });
+  fetch(calUrl + (calUrl.indexOf('?') < 0 ? '?' : '&') + '_=' + new Date().getTime()).then(function(r){ return r.json(); }).then(function(j){ if (j.error) throw new Error(j.error); events = j.events || []; todo = j.todo || null; pts = j.pts || null; turnos = j.turnos || null; $('status').textContent = j.ptsError ? 'Puntos: ' + j.ptsError : (!j.pts ? 'Script sin datos de puntos: publica nueva versión' : '')  + (j.todoError ? ' Todoist: ' + j.todoError : (j.lastAction && j.lastAction.indexOf('ERROR') > -1 ? 'Última orden: ' + j.lastAction : '')); renderAll(); }).catch(function(){ $('status').textContent = 'Calendario sin conexión · ' + hhmm(new Date()); });
 }
-function adHtml(ev){ return '<div class="ad"' + (ev.color ? ' style="background:' + ev.color + ';color:#fff;font-weight:600"' : '') + '>' + esc(ev.title) + '</div>'; }
+function adHtml(ev){ return '<div class="ad"' + ((ev.color || ev.cal) ? ' style="background:' + (ev.color || ev.cal) + ';color:#fff;font-weight:600"' : '') + '>' + esc(ev.title) + '</div>'; }
 function colorFor(t){ var p = String(t).split(':'); if (p.length < 2) return '#7a8aa0'; var h = 0, s = p[0], i; for (i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) % 997; return COLORS[h % COLORS.length]; }
 function adDate(iso){ var d = new Date(new Date(iso).getTime() + 43200000); return new Date(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate()); }
 function evsOn(a, b){ var out = [], i; for (i = 0; i < events.length; i++){ var v = events[i], s, e; if (v.allDay){ s = adDate(v.start); e = adDate(v.end); } else { s = new Date(v.start); e = new Date(v.end); } if (s < b && e > a) out.push(v); } return out; }
-function evHtml(ev, now){ var s = new Date(ev.start), past = !ev.allDay && new Date(ev.end) < now; return '<div class="ev' + (past ? ' past' : '') + '" style="border-left-color:' + (ev.color || colorFor(ev.title)) + '"><div class="h">' + hhmm(s) + '</div><div class="t">' + esc(ev.title) + (ev.location ? ' <span style="color:#8b7f73;font-size:22px">· ' + esc(shortLoc(ev.location)) + '</span>' : '') + '</div></div>'; }
+/* ---------- turnos: quién lleva / recoge ---------- */
+var turnos = null;
+function turnoInfo(ev){
+  if (!turnos || ev.allDay || !/^\s*faus\s*:\s*(entrada|salida)/i.test(ev.title)) return null;
+  var d = new Date(ev.start), k = isoDay(d) + '|' + String(ev.title).toLowerCase().replace(/\s+/g, ' ').replace(/^ | $/g, ''), b = turnos.base[d.getDay()] || {e: 'Mamá', s: 'Mamá'};
+  var def = /entrada/i.test(ev.title) ? b.e : b.s;
+  return {k: k, w: turnos.over[k] || def, def: def};
+}
+function turnoTag(ev){
+  var t = turnoInfo(ev); if (!t) return '';
+  return ' <span class="who ' + (t.w === 'Papá' ? 'wp' : 'wm') + '" data-k="' + esc(t.k) + '" data-d="' + esc(t.def) + '">' + (t.w === 'Papá' ? '👨 Papá' : '👩 Mamá') + '</span>';
+}
+function turnoTxt(ev){ var t = turnoInfo(ev); return t ? (t.w === 'Papá' ? '👨 Papá' : '👩 Mamá') : ''; }
+document.addEventListener('click', function(e){
+  var el = e.target, n = 0;
+  while (el && n < 4 && !(el.className && String(el.className).indexOf('who') > -1 && el.getAttribute && el.getAttribute('data-k'))){ el = el.parentNode; n++; }
+  if (!el || !el.getAttribute || !el.getAttribute('data-k') || !turnos) return;
+  e.stopPropagation(); e.preventDefault();
+  var k = el.getAttribute('data-k'), def = el.getAttribute('data-d'), cur = turnos.over[k] || def, nw = cur === 'Mamá' ? 'Papá' : 'Mamá';
+  if (nw === def){ delete turnos.over[k]; api('op=turno&x=' + encodeURIComponent(k) + '&w='); } else { turnos.over[k] = nw; api('op=turno&x=' + encodeURIComponent(k) + '&w=' + encodeURIComponent(nw)); }
+  renderAll();
+}, true);
+function evHtml(ev, now){ var s = new Date(ev.start), past = !ev.allDay && new Date(ev.end) < now; return '<div class="ev' + (past ? ' past' : '') + '" style="border-left-color:' + (ev.color || colorFor(ev.title)) + '"><div class="h">' + hhmm(s) + turnoTag(ev) + '</div><div class="t">' + esc(ev.title) + (ev.location ? ' <span style="color:#8b7f73;font-size:22px">· ' + esc(shortLoc(ev.location)) + '</span>' : '') + '</div></div>'; }
 function renderNext(){
   var now = new Date(), cur = null, nxt = null, i;
   for (i = 0; i < events.length; i++){ var ev = events[i]; if (ev.allDay) continue; var s = new Date(ev.start), e = new Date(ev.end); if (s <= now && e > now && !cur) cur = ev; if (s > now && !nxt) nxt = ev; }
@@ -456,8 +501,9 @@ function renderNext(){
   else { var mins = Math.round((s2 - now) / 60000);
     if (mins < 60) chip = 'en ' + mins + ' min'; else if (mins < 1440) chip = 'en ' + Math.floor(mins / 60) + ' h ' + (mins % 60) + ' min'; else chip = 'en ' + Math.round(mins / 1440) + ' días';
     var dd = Math.round((dstart(s2) - dstart(now)) / 86400000);
-    sub = (dd === 0 ? 'Hoy' : dd === 1 ? 'Mañana' : cap(DIAS[s2.getDay()])) + ' · ' + hhmm(s2) + '–' + hhmm(e2); }
-  if (p.location) sub += ' · ' + shortLoc(p.location);
+    sub = (dd === 0 ? 'Hoy' : dd === 1 ? 'Mañana' : cap(DIAS[s2.getDay()])) + ' · ' + (+e2 === +s2 ? hhmm(s2) : hhmm(s2) + '–' + hhmm(e2)); }
+  if (turnoTxt(p)) sub += ' · ' + turnoTxt(p);
+  else if (p.location) sub += ' · ' + shortLoc(p.location);
   $('nxt').innerHTML = '<div class="h"><div class="l">' + (cur ? 'AHORA' : 'LO PRÓXIMO') + '</div><div class="c">' + chip + '</div></div><div class="tt">' + esc(p.title) + '</div><div class="w">' + esc(sub) + '</div>';
 }
 function dayData(off, now, maxN){
@@ -561,10 +607,60 @@ function renderKids(){
 }
 
 /* ---------- puntos y premios (hoja de Google) ---------- */
+function insHtml(){
+  var k, h = '';
+  if (pts && pts.ins) for (k in pts.ins) if (pts.ins.hasOwnProperty(k)) h += '<span>' + pts.ins[k].e + ' ' + esc(k) + (pts.ins[k].c > 1 ? ' ×' + pts.ins[k].c : '') + '</span>';
+  return h ? '<div class="vsub" style="margin-top:18px;margin-bottom:6px">Insignias</div><div class="ins">' + h + '</div>' : '';
+}
+var xtW = '', xtV = 0;
+function xtOpen(){
+  var PIN = String(lsGet('pin', '') || ''), i, a;
+  xtW = ''; xtV = 0; $('xtT').value = ''; $('xtN').value = ''; $('xtPin').value = ''; $('xtE').textContent = '';
+  $('xtPin').style.display = PIN ? '' : 'none';
+  function sel(box, cur){ a = box.getElementsByTagName('span'); for (i = 0; i < a.length; i++) a[i].className = (cur && a[i].getAttribute('data-v') === String(cur)) ? 'on' : ''; }
+  sel($('xtW'), ''); sel($('xtP'), '');
+  var w = $('xtW').getElementsByTagName('span'), p = $('xtP').getElementsByTagName('span');
+  for (i = 0; i < w.length; i++) w[i].onclick = function(){ xtW = this.getAttribute('data-v'); sel($('xtW'), xtW); };
+  for (i = 0; i < p.length; i++) p[i].onclick = function(){ xtV = parseInt(this.getAttribute('data-v'), 10); $('xtN').value = ''; sel($('xtP'), xtV); };
+  $('xtN').oninput = function(){ xtV = parseInt(this.value, 10) || 0; sel($('xtP'), ''); };
+  $('xtNo').onclick = function(){ $('xtp').style.display = 'none'; };
+  $('xtOk').onclick = function(){
+    var t = $('xtT').value.replace(/^\s+|\s+$/g, '');
+    if (!xtW) { $('xtE').textContent = 'Elige quién lo da'; return; }
+    if (!(xtV >= 1 && xtV <= 50)) { $('xtE').textContent = 'Elige los puntos (1 a 50)'; return; }
+    if (!t) { $('xtE').textContent = 'Escribe el motivo'; return; }
+    if (PIN && $('xtPin').value !== PIN) { $('xtE').textContent = 'PIN incorrecto'; $('xtPin').value = ''; return; }
+    $('xtp').style.display = 'none';
+    pts.saldo += xtV; pts.total += xtV; pts.mes.gan += xtV;
+    pts.ult.unshift({f: isoDay(new Date()), c: 'Extra (' + xtW + '): ' + t, p: xtV});
+    lgQ.push({e: '🌟', n: '¡Premio extra!', m: xtW + ': ' + t, p: xtV}); lgShow();
+    api('op=extra&x=' + encodeURIComponent(t) + '&w=' + encodeURIComponent(xtW) + '&i=' + xtV);
+    renderPts(); renderKids(); renderMob(true);
+  };
+  $('xtp').style.display = 'flex';
+}
+document.addEventListener('click', function(e){ var t = e.target; while (t && t !== document){ if (t.id === 'xtBtn' || t.id === 'mXt'){ if (pts) xtOpen(); return; } t = t.parentNode; } }, true);
+var lgQ = [], lgOn = false;
+function lgShow(){
+  if (lgOn || !lgQ.length) return;
+  var l = lgQ.shift(); lgOn = true;
+  $('lgE').textContent = l.e; $('lgN').textContent = l.n; $('lgM').textContent = l.m; $('lgP').textContent = l.p ? '+' + l.p + ' puntos' : '';
+  $('lgp').style.display = 'flex';
+  var t = setTimeout(cl, 12000);
+  function cl(){ clearTimeout(t); $('lgp').style.display = 'none'; lgOn = false; setTimeout(lgShow, 300); }
+  $('lgp').onclick = cl;
+}
+function checkLogros(){
+  if (!pts || !pts.logros) return;
+  var seen = lsGet('logrosVistos', null), i, l, hoyD = isoDay(new Date()), first = (seen === null);
+  if (first) seen = [];
+  for (i = 0; i < pts.logros.length; i++){ l = pts.logros[i]; if (seen.indexOf(l.k) < 0){ seen.push(l.k); if (!first && l.f === hoyD) lgQ.push(l); } }
+  lsSet('logrosVistos', seen.slice(-200)); lgShow();
+}
 function ptsTotal(){ var t = 0, i; for (i = 0; i < pts.tareas.length; i++) t += pts.tareas[i].p; return t; }
 function renderPts(){
   $('localKid').style.display = 'none';
-  $('ptsInfo').textContent = 'Puntos y premios: se editan en la hoja «Panel familiar · Puntos y premios» de tu Drive (pestañas Tareas y Premios).';
+  $('ptsInfo').innerHTML = 'Puntos, premios y logros: se editan en la hoja «Panel familiar · Puntos y premios» (pestañas Tareas, Premios y Logros).' + (pts.url ? '<div class="btn l" style="margin-top:10px" onclick="window.open(pts.url)">Abrir hoja de puntos</div>' : '');
   var tot = ptsTotal(), hoy = 0, i, hechas = 0;
   for (i = 0; i < pts.tareas.length; i++) if (pts.hoy[pts.tareas[i].n]){ hoy += pts.tareas[i].p; hechas++; }
   var rs = pts.premios.slice().sort(function(a, b){ return a.p - b.p; }), aff = null, nx = null, hoyD = isoDay(new Date());
@@ -594,7 +690,7 @@ function renderPts(){
   for (i = 0; i < rs.length; i++){ var r = rs[i], hi = esHito(r), cur = hi ? pts.total : pts.saldo, dn = hi && hecho(r), ok = cur >= r.p && !dn;
     rh += '<div class="rw' + (r.t === 'gordo' ? ' gran' : r.t === 'especial' ? ' gran azul' : '') + '"><div class="e">' + r.e + '</div><div class="m"><div class="n">' + (r.t === 'gordo' || r.t === 'especial' ? '✨ ' : '') + esc(r.n) + '</div><div class="c">' + r.p + ' ⭐ · ' + (dn ? '✓ conseguido' : ok ? '¡listo!' : 'faltan ' + (r.p - cur)) + (hi ? ' · hito' : ' · se gasta') + '</div><div class="bar" style="margin-top:8px;height:10px"><div style="width:' + Math.min(100, Math.round(100 * cur / r.p)) + '%"></div></div></div><div class="go' + (ok ? '' : ' off') + '" data-r="' + i + '">Canjear</div></div>'; }
   var mh = ''; if (pts.ult && pts.ult.length){ mh = '<div class="vsub" style="margin-top:18px;margin-bottom:6px">Últimos movimientos</div>'; for (i = 0; i < pts.ult.length && i < 3; i++) mh += '<div class="mv"><span>' + esc(pts.ult[i].f.slice(5).split('-').reverse().join('/')) + ' · ' + esc(pts.ult[i].c) + '</span><b class="' + (pts.ult[i].p < 0 ? 'neg' : '') + '">' + (pts.ult[i].p > 0 ? '+' : '') + pts.ult[i].p + '</b></div>'; }
-  $('movs').innerHTML = mh;
+  $('movs').innerHTML = mh + insHtml();
   $('rewards').innerHTML = rh;
   var gs = $('rewards').getElementsByClassName('go');
   for (i = 0; i < gs.length; i++) (function(g){ g.onclick = function(){
@@ -609,8 +705,8 @@ var shop = lsGet('shop', []);
 /* Todoist vía Apps Script: todo = {compra:[{id,t,due,o,x}], casa:[...]} ; null = sin Todoist (compra local) */
 function isoDay(d){ return d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate()); }
 function demoTodo(){ var n = new Date(); return {compra: [{id: 'd1', t: 'Leche', due: ''}, {id: 'd2', t: 'Pan', due: ''}, {id: 'd3', t: 'Manzanas', due: ''}], casa: [{id: 'c1', t: 'Renovar el DNI', due: '', o: 1}, {id: 'c2', t: 'Cita ITV del coche', due: isoDay(dstart(n, 2)), o: 2}, {id: 'c3', t: 'Cambiar el grifo de la cocina', due: '', o: 3}, {id: 'c4', t: 'Pagar el IBI', due: isoDay(dstart(n, -1)), o: 4}, {id: 'c5', t: 'Colgar las baldas del salón', due: '', o: 5}]}; }
-function demoPts(){ return {tareas: [{e:'🌅',n:'Levantarse temprano',p:1},{e:'🍎',n:'Comer bien (desayuno, comida y cena)',p:3},{e:'🐕',n:'Acompañar a Siena en su paseo',p:2},{e:'🚂',n:'Recoger juguetes y pinturas',p:1},{e:'🚿',n:'Ducharse por la noche',p:1},{e:'📖',n:'Lectura o deberes',p:2}], premios: [{e:'🍬',n:'Chucherías',p:20,t:'pequeño'},{e:'📺',n:'30 min extra de YouTube',p:30,t:'pequeño'},{e:'🍕',n:'Pizza y peli con papás',p:60,t:'pequeño'},{e:'🍴',n:'Cenar en un restaurante',p:100,t:'mensual'},{e:'🎬',n:'Ir al cine',p:150,t:'mensual'},{e:'🎁',n:'Visita a la juguetería',p:300,t:'especial'},{e:'🏰',n:'Viaje a Disneyland',p:1000,t:'gordo'}], hoy: {'Levantarse temprano': true, 'Comer bien (desayuno, comida y cena)': true}, hoyPts: 4, saldo: 47, total: 127, hit: {}, mes: {gan: 87, can: 40}, ult: [{f:'2026-10-21',c:'Comer todo',p:1},{f:'2026-10-20',c:'Canje: Helado',p:-20},{f:'2026-10-20',c:'Acompañar a Siena en su paseo',p:2}], url: ''}; }
-if (DEMO){ todo = demoTodo(); pts = demoPts(); }
+function demoPts(){ return {tareas: [{e:'🌅',n:'Levantarse temprano',p:1},{e:'🍎',n:'Comer bien (desayuno, comida y cena)',p:3},{e:'🐕',n:'Acompañar a Siena en su paseo',p:2},{e:'🚂',n:'Recoger juguetes y pinturas',p:1},{e:'🚿',n:'Ducharse por la noche',p:1},{e:'📖',n:'Lectura o deberes',p:2}], premios: [{e:'🍬',n:'Chucherías',p:20,t:'pequeño'},{e:'📺',n:'30 min extra de YouTube',p:30,t:'pequeño'},{e:'🍕',n:'Pizza y peli con papás',p:60,t:'pequeño'},{e:'🍴',n:'Cenar en un restaurante',p:100,t:'mensual'},{e:'🎬',n:'Ir al cine',p:150,t:'mensual'},{e:'🎁',n:'Visita a la juguetería',p:300,t:'especial'},{e:'🏰',n:'Viaje a Disneyland',p:1000,t:'gordo'}], hoy: {'Levantarse temprano': true, 'Comer bien (desayuno, comida y cena)': true}, hoyPts: 4, saldo: 47, total: 127, hit: {}, mes: {gan: 87, can: 40}, ult: [{f:'2026-10-21',c:'Comer todo',p:1},{f:'2026-10-20',c:'Canje: Helado',p:-20},{f:'2026-10-20',c:'Acompañar a Siena en su paseo',p:2}], url: '', logros: [], ins: {'Paseador de Siena': {e: '🐕', c: 2}}}; }
+if (DEMO){ todo = demoTodo(); pts = demoPts(); turnos = {base: {0: {e: 'Mamá', s: 'Mamá'}, 1: {e: 'Mamá', s: 'Mamá'}, 2: {e: 'Mamá', s: 'Mamá'}, 3: {e: 'Mamá', s: 'Papá'}, 4: {e: 'Mamá', s: 'Mamá'}, 5: {e: 'Mamá', s: 'Mamá'}, 6: {e: 'Mamá', s: 'Mamá'}}, over: {}}; }
 var syncA = 0, syncB = 0;
 function api(q){
   if (DEMO || !calUrl) return;
@@ -618,6 +714,7 @@ function api(q){
   var im = new Image(); im.src = calUrl + (calUrl.indexOf('?') < 0 ? '?' : '&') + q + '&_=' + new Date().getTime();
   $('status').textContent = 'Guardando…';
   clearTimeout(syncA); clearTimeout(syncB); syncA = setTimeout(loadCalendar, 5000); syncB = setTimeout(loadCalendar, 14000);
+  if (q.indexOf('op=tarea') === 0) setTimeout(loadCalendar, 2500);
 }
 function shopArr(){ var o = [], i; if (todo){ for (i = 0; i < todo.compra.length; i++) o.push({t: todo.compra[i].t, d: !!todo.compra[i].x, id: todo.compra[i].id}); return o; } return shop; }
 function addShop(t){
@@ -792,8 +889,8 @@ function mobNext(){
   for (i = 0; i < events.length; i++){ ev = events[i]; if (ev.allDay) continue; s = new Date(ev.start); e = new Date(ev.end); if (s <= now && e > now && !cur) cur = ev; if (s > now && !nxt) nxt = ev; }
   var p = cur || nxt; if (!p) return '<div class="mc mnx"><div class="mh">LO PRÓXIMO</div><div class="mt">Nada pendiente</div></div>';
   var s2 = new Date(p.start), e2 = new Date(p.end), dd = Math.round((dstart(s2) - dstart(now)) / 86400000);
-  var when = cur ? 'En curso · hasta las ' + hhmm(e2) : (dd === 0 ? 'Hoy' : dd === 1 ? 'Mañana' : cap(DIAS[s2.getDay()])) + ' · ' + hhmm(s2) + '–' + hhmm(e2);
-  return '<div class="mc mnx"><div class="mh">' + (cur ? 'AHORA' : 'LO PRÓXIMO') + '</div><div class="mt">' + esc(p.title) + '</div><div class="ms">' + esc(when) + (p.location ? ' · ' + esc(shortLoc(p.location)) : '') + '</div></div>';
+  var when = cur ? 'En curso · hasta las ' + hhmm(e2) : (dd === 0 ? 'Hoy' : dd === 1 ? 'Mañana' : cap(DIAS[s2.getDay()])) + ' · ' + (+e2 === +s2 ? hhmm(s2) : hhmm(s2) + '–' + hhmm(e2));
+  return '<div class="mc mnx"><div class="mh">' + (cur ? 'AHORA' : 'LO PRÓXIMO') + '</div><div class="mt">' + esc(p.title) + '</div><div class="ms">' + esc(when) + (turnoTxt(p) ? ' · ' + turnoTxt(p) : '') + (p.location ? ' · ' + esc(shortLoc(p.location)) : '') + '</div></div>';
 }
 function mobHoy(){
   var now = new Date(), h = '', i, d, list, k, tk, hasAny;
@@ -843,7 +940,7 @@ function mobFaus(){
   for (i = 0; i < rs.length; i++){ var r = rs[i], hi = r.t && r.t !== 'pequeño', cur = hi ? pts.total : pts.saldo, dn = hi && !!pts.hit[r.n] && (r.t !== 'mensual' || pts.hit[r.n].slice(0, 7) === hoyD.slice(0, 7));
     h += '<div class="mrw' + (r.t === 'gordo' ? ' gran' : r.t === 'especial' ? ' azul' : '') + '"><div class="r1"><div class="e">' + r.e + '</div><div>' + esc(r.n) + '</div></div><div class="r2">' + r.p + ' ⭐ · ' + (dn ? '✓ conseguido' : cur >= r.p ? '¡listo!' : 'faltan ' + (r.p - cur)) + '</div><div class="mbar"><div style="width:' + Math.min(100, Math.round(100 * cur / r.p)) + '%"></div></div></div>'; }
   if (pts.ult && pts.ult.length){ h += '<div class="mday">Últimos movimientos</div>'; for (i = 0; i < pts.ult.length && i < 3; i++) h += '<div class="mmv"><span>' + esc(pts.ult[i].f.slice(5).split('-').reverse().join('/')) + ' · ' + esc(pts.ult[i].c) + '</span><b class="' + (pts.ult[i].p < 0 ? 'neg' : '') + '">' + (pts.ult[i].p > 0 ? '+' : '') + pts.ult[i].p + '</b></div>'; }
-  return h;
+  return h + insHtml() + '<div class="mb" id="mXt" style="margin:18px 0;padding:14px;text-align:center;border-radius:16px;background:#e8a317;color:#fff;font-weight:800;font-size:17px">⭐ Premio extra</div>';
 }
 function mobToggleTask(t){
   var PIN = String(lsGet('pin', '') || '');
@@ -882,7 +979,7 @@ function renderMob(force){
     els = b.getElementsByClassName('mli'); for (i = 0; i < els.length; i++) (function(el){ el.onclick = function(){ mobToggleTask(pts.tareas[parseInt(el.getAttribute('data-i'), 10)]); }; })(els[i]);
   }
 }
-function renderAll(){ renderNext(); renderWeek(); renderCal(); renderRopa(); renderShop(); renderCasa(); renderKids(); renderMob(); }
+function renderAll(){ renderNext(); renderWeek(); renderCal(); renderRopa(); renderShop(); renderCasa(); renderKids(); renderMob(); checkLogros(); }
 var lastDay = '';
 function tick(){
   var n = new Date(); $('clock').textContent = hhmm(n); $('rclock').innerHTML = pad(n.getHours()) + '<br>' + pad(n.getMinutes()); $('night').textContent = hhmm(n);
