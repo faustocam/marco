@@ -470,10 +470,19 @@ function adDate(iso){ var d = new Date(new Date(iso).getTime() + 43200000); retu
 function evsOn(a, b){ var out = [], i; for (i = 0; i < events.length; i++){ var v = events[i], s, e; if (v.allDay){ s = adDate(v.start); e = adDate(v.end); } else { s = new Date(v.start); e = new Date(v.end); } if (s < b && e > a) out.push(v); } return out; }
 /* ---------- turnos: quién lleva / recoge ---------- */
 var turnos = null;
+/* viaje de varios días (evento de todo el día «Veronica: …» / «Fausto: …»): ese día lleva el otro */
+function fuera(d){
+  var t = new Date(d.getFullYear(), d.getMonth(), d.getDate()), i, v, s, e, r = '';
+  for (i = 0; i < events.length; i++){ v = events[i]; if (!v.allDay) continue; s = adDate(v.start); e = adDate(v.end);
+    if (e - s < 1.5 * 86400000 || t < s || t >= e) continue;
+    if (/^\s*(ver[oó]nica|mam[aá])\s*:/i.test(v.title)) r = 'Mamá'; else if (/^\s*(fausto|pap[aá])\s*:/i.test(v.title)) r = r || 'Papá'; }
+  return r;
+}
 function turnoInfo(ev){
   if (!turnos || ev.allDay || !/^\s*faus\s*:\s*(entrada|salida)/i.test(ev.title)) return null;
   var d = new Date(ev.start), k = isoDay(d) + '|' + String(ev.title).toLowerCase().replace(/\s+/g, ' ').replace(/^ | $/g, ''), b = turnos.base[d.getDay()] || {e: 'Mamá', s: 'Mamá'};
-  var def = /entrada/i.test(ev.title) ? b.e : b.s;
+  var def = /entrada/i.test(ev.title) ? b.e : b.s, fu = fuera(d);
+  if (fu === 'Mamá' && def === 'Mamá') def = 'Papá'; else if (fu === 'Papá' && def === 'Papá') def = 'Mamá';
   return {k: k, w: turnos.over[k] || def, def: def};
 }
 function turnoTag(ev){
